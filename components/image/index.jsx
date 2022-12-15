@@ -59,17 +59,18 @@ const Image = ({ src }) => {
             style={{
               color: "rgb(118, 248, 176)",
               margin: 0,
+              textAlign: 'center'
             }}
           >
             Azure
           </h2>
-          <p>
-            <b>Suggested: </b>
-            {suggested || "Loading..."}
+          <p style={{ display: "flex", alignItems: "center" }}>
+            <b style={{ marginRight: "8px" }}>Suggested: </b>
+            {suggested || <div className="loading-bar small"></div>}
           </p>
-          <p>
-            <b>GPT Suggestion: </b>
-            {chatGTPSuggestion || "Loading..."}
+          <p style={{ display: "flex", alignItems: "center" }}>
+            <b style={{ marginRight: "8px" }}>GPT Suggestion: </b>
+            {chatGTPSuggestion || <div className="loading-bar small"></div>}
           </p>
         </div>
       )}

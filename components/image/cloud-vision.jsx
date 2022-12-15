@@ -24,7 +24,7 @@ const CloudVision = ({ src }) => {
   };
 
   return (
-    <div style={{margin: '10px 0'}}>
+    <div style={{ margin: "10px 0" }}>
       {!cloudVisionFetched ? (
         <input
           type="button"
@@ -54,17 +54,18 @@ const CloudVision = ({ src }) => {
             style={{
               color: "#4285F4",
               margin: 0,
+              textAlign: "center",
             }}
           >
             Google Cloud Vision
           </h2>
-          <p>
-            <b>Suggested: </b>
-            {cloudSuggestion || "Loading..."}
+          <p style={{ display: "flex", alignItems: "center" }}>
+            <b style={{ marginRight: "8px" }}>Suggested: </b>
+            {cloudSuggestion || <div className="loading-bar small"></div>}
           </p>
-          <p>
-            <b>GPT Suggestion: </b>
-            {chatGTPCloud || "Loading..."}
+          <p style={{ display: "flex", alignItems: "center" }}>
+            <b style={{ marginRight: "8px" }}>GPT Suggestion: </b>
+            {chatGTPCloud || <div className="loading-bar small"></div>}
           </p>
         </div>
       )}

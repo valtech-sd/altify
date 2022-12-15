@@ -7,9 +7,11 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 export default function Home() {
   const [imageInput, setImageInput] = useState("");
   const [result, setResult] = useState();
+  const [loading, setLoading] = useState(false);
 
   async function onSubmit(event) {
     event.preventDefault();
+    setLoading(true);
     const response = await fetch("/api/generate", {
       method: "POST",
       headers: {
@@ -20,6 +22,7 @@ export default function Home() {
     const data = await response.json();
 
     setResult(data.result);
+    setLoading(false);
   }
 
   return (
@@ -49,6 +52,9 @@ export default function Home() {
             marginTop: "20px",
           }}
         >
+          <div style={{margin: '0 auto'}}>
+            {loading && <div className="loading-bar"></div>}
+          </div>
           {result && (
             <ResponsiveMasonry
               columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
@@ -56,7 +62,9 @@ export default function Home() {
               <Masonry gutter="1.5rem">
                 {Array.isArray(result) &&
                   result.map((image, idx) => {
-                    return <Image key={`altify-image-${idx}`} src={image.image} />;
+                    return (
+                      <Image key={`altify-image-${idx}`} src={image.image} />
+                    );
                   })}
               </Masonry>
             </ResponsiveMasonry>

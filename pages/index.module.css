@@ -1,3 +1,7 @@
+.main {
+  --primary-color: rgb(118, 248, 176);
+}
+
 @font-face {
   font-family: "ColfaxAI";
   src: url(https://cdn.openai.com/API/fonts/ColfaxAIRegular.woff2)
@@ -48,7 +52,7 @@
 }
 .main input[type="text"] {
   padding: 12px 16px;
-  border: 1px solid rgb(118, 248, 176);
+  border: 1px solid var(--primary-color);
   border-radius: 4px;
   margin-bottom: 24px;
   width: 100%;
@@ -60,7 +64,7 @@
 .main input[type="submit"] {
   padding: 12px 0;
   color: black;
-  background-color: rgb(118, 248, 176);
+  background-color: var(--primary-color);
   border: none;
   border-radius: 4px;
   text-align: center;
