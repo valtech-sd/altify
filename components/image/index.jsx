@@ -3,6 +3,7 @@ import {
   computerVision,
   isConfigured as ComputerVisionIsConfigured,
 } from "../../helpers/azure";
+import CloudVision from "./cloud-vision";
 
 const Image = ({ src }) => {
   const [suggested, setSuggested] = useState("");
@@ -30,10 +31,10 @@ const Image = ({ src }) => {
   return (
     <div>
       <img src={src} alt={chatGTPSuggestion || ""} style={{ width: "100%" }} />
-      {!imageSuggestionFetched && (
+      {!imageSuggestionFetched ? (
         <input
           type="button"
-          value="Get Suggestion"
+          value="Get Suggestion (Azure)"
           onClick={getSuggestion}
           style={{
             padding: "12px 0",
@@ -46,13 +47,33 @@ const Image = ({ src }) => {
             width: "100%",
           }}
         />
-      )}
-      {imageSuggestionFetched && (
-        <div>
-          <p>Suggested: {suggested || "Loading..."}</p>
-          <p>GPT Suggestion: {chatGTPSuggestion || "Loading..."}</p>
+      ) : (
+        <div
+          style={{
+            borderRadius: "4px",
+            border: "1px solid #424242",
+            padding: "10px",
+          }}
+        >
+          <h2
+            style={{
+              color: "rgb(118, 248, 176)",
+              margin: 0,
+            }}
+          >
+            Azure
+          </h2>
+          <p>
+            <b>Suggested: </b>
+            {suggested || "Loading..."}
+          </p>
+          <p>
+            <b>GPT Suggestion: </b>
+            {chatGTPSuggestion || "Loading..."}
+          </p>
         </div>
       )}
+      <CloudVision src={src} />
     </div>
   );
 };

@@ -49,17 +49,18 @@ export default function Home() {
             marginTop: "20px",
           }}
         >
-          <ResponsiveMasonry
-            columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
-          >
-            <Masonry gutter="1.5rem">
-              {result &&
-                Array.isArray(result) &&
-                result.map((image) => {
-                  return <Image src={image.image} />;
-                })}
-            </Masonry>
-          </ResponsiveMasonry>
+          {result && (
+            <ResponsiveMasonry
+              columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+            >
+              <Masonry gutter="1.5rem">
+                {Array.isArray(result) &&
+                  result.map((image, idx) => {
+                    return <Image key={`altify-image-${idx}`} src={image.image} />;
+                  })}
+              </Masonry>
+            </ResponsiveMasonry>
+          )}
         </div>
       </main>
     </div>
