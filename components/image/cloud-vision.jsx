@@ -17,9 +17,11 @@ const CloudVision = ({ src }) => {
         body: JSON.stringify({ tags: resp }),
       })
         .then((response) => response.json())
-        .then((response) => setChatGTPCloud(response.result));
-      console.log(123, resp);
-      setCloudSuggestion(resp.join(" "));
+        .then((response) => setChatGTPCloud(response.result))
+        .catch((rejected) => {
+          setCloudVisionFetched(false);
+        });;
+      setCloudSuggestion(resp && resp.join(", "));
     });
   };
 
@@ -61,11 +63,11 @@ const CloudVision = ({ src }) => {
           </h2>
           <p style={{ display: "flex", alignItems: "center" }}>
             <b style={{ marginRight: "8px" }}>Suggested: </b>
-            {cloudSuggestion || <div className="loading-bar small"></div>}
+            {cloudSuggestion || <span className="loading-bar small"></span>}
           </p>
           <p style={{ display: "flex", alignItems: "center" }}>
             <b style={{ marginRight: "8px" }}>GPT Suggestion: </b>
-            {chatGTPCloud || <div className="loading-bar small"></div>}
+            {chatGTPCloud || <span className="loading-bar small"></span>}
           </p>
         </div>
       )}

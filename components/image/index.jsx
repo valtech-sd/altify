@@ -66,11 +66,11 @@ const Image = ({ src }) => {
           </h2>
           <p style={{ display: "flex", alignItems: "center" }}>
             <b style={{ marginRight: "8px" }}>Suggested: </b>
-            {suggested || <div className="loading-bar small"></div>}
+            {suggested || <span className="loading-bar small"></span>}
           </p>
           <p style={{ display: "flex", alignItems: "center" }}>
             <b style={{ marginRight: "8px" }}>GPT Suggestion: </b>
-            {chatGTPSuggestion || <div className="loading-bar small"></div>}
+            {chatGTPSuggestion || <span className="loading-bar small"></span>}
           </p>
         </div>
       )}

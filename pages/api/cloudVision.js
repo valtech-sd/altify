@@ -3,7 +3,6 @@ import RandomImageUrl from "../../helpers/DefaultImages";
 const serverUrl = "http://localhost:3030";
 
 const getCloudVision = async (src) => {
-    console.log(123, src || RandomImageUrl);
   const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
