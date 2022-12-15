@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "description": "Altify requests for image detection services",
     "main": "app.js",
-    "scripts": {},
+    "scripts": {
+        "start": "node app.js"
+    },
     "author": "Valtech - Future Studio",
     "dependencies": {
         "@google-cloud/vision": "^3.0.1",
