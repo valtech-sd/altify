@@ -8,6 +8,9 @@ import { ApiKeyCredentials } from "@azure/ms-rest-js";
 import RandomImageUrl from "./DefaultImages";
 
 // Authentication requirements
+const key = "test";
+
+const endpoint = "test";
 
 console.log(`key = ${key}`);
 console.log(`endpoint = ${endpoint}`);
