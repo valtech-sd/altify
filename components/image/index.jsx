@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getAzureComputerVision } from '../../helpers';
+import { getAzureComputerVision, getOpenAPI } from '../../helpers';
 import CloudVision from './cloud-vision';
 
 const Image = ({ src }) => {
