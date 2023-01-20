@@ -25,6 +25,9 @@ jobs:
           npm run build
           npm run export
           touch out/.nojekyll
+        env:
+          NEXT_PUBLIC_MS_CV_API_KEY: ${{ secrets.NEXT_PUBLIC_MS_CV_API_KEY }}
+          NEXT_PUBLIC_MS_CV_ENDPOINT: ${{ secrets.NEXT_PUBLIC_MS_CV_ENDPOINT }}
 
       - name: Deploy
         # https://github.com/JamesIves/github-pages-deploy-action
