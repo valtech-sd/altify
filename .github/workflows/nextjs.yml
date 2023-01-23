@@ -28,6 +28,8 @@ jobs:
         env:
           NEXT_PUBLIC_MS_CV_API_KEY: ${{ secrets.NEXT_PUBLIC_MS_CV_API_KEY }}
           NEXT_PUBLIC_MS_CV_ENDPOINT: ${{ secrets.NEXT_PUBLIC_MS_CV_ENDPOINT }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_LOCAL_URL: ${{ secrets.NEXT_PUBLIC_LOCAL_URL }}
 
       - name: Deploy
         # https://github.com/JamesIves/github-pages-deploy-action
