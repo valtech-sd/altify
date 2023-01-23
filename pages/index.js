@@ -4,7 +4,7 @@ import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import styles from './index.module.css';
 import Image from '../components/image';
-import { serverPort, serverUrl } from '../constants/constants';
+import { serverUrl } from '../constants/constants';
 
 export default function Home() {
   const [imageInput, setImageInput] = useState('');
@@ -14,7 +14,7 @@ export default function Home() {
   async function onSubmit(event) {
     event.preventDefault();
     setLoading(true);
-    const response = await fetch(`${serverUrl}:${serverPort}/generate`, {
+    const response = await fetch(`${serverUrl}/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
