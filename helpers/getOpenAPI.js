@@ -1,7 +1,7 @@
-import { serverPort, serverUrl } from "../constants/constants";
+import { serverUrl } from "../constants/constants";
 
 export default async function getOpenAPI(tags) {
-  const response = await fetch(`${serverUrl}:${serverPort}/openAPI`, {
+  const response = await fetch(`${serverUrl}/openAPI`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
