@@ -3,8 +3,8 @@ import { useState } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import styles from './index.module.css';
-import Image from '../components/image';
 import { serverUrl } from '../constants/constants';
+import Image from "../components/image";
 
 export default function Home() {
   const [imageInput, setImageInput] = useState('');
@@ -35,7 +35,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <form onSubmit={onSubmit}>
-          <img src="/valtechLogo-black.png" className={styles.icon} />
+          <img src="./valtechLogo-black.png" className={styles.icon} />
           <input type="text" name="image url" placeholder="Enter an url" value={imageInput} onChange={(e) => setImageInput(e.target.value)} />
           <input type="submit" value="Analize URL" />
         </form>
