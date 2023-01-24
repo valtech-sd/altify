@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { shape, string } from 'prop-types';
 
 import { getGoogleCloudVision, getOpenAPI } from '../../helpers';
@@ -35,6 +35,16 @@ const CloudVision = ({ src }) => {
       }
     });
   }
+
+  function clear() {
+    setFetched(false);
+    setSuggestion(null);
+    setChatGPT(null);
+  }
+
+  useEffect(() => {
+    clear();
+  }, [src])
 
   return <Card src={src} onClick={getCloudSuggestion} alt="" header="Cloud Vision" fetched={fetched} suggestion={suggestion} chatGTP={chatGTP} />;
 };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { shape, string } from 'prop-types';
 
 import { getAzureComputerVision, getOpenAPI } from '../../helpers';
@@ -37,6 +37,16 @@ const Azure = ({ src }) => {
       }
     });
   }
+
+  function clear() {
+    setFetched(false);
+    setSuggestion(null);
+    setChatGPT(null);
+  }
+
+  useEffect(() => {
+    clear();
+  }, [src]);
 
   return <Card src={src} onClick={getAzureSuggestion} alt="" header="Azure" fetched={fetched} suggestion={suggestion} chatGTP={chatGTP} />;
 };
