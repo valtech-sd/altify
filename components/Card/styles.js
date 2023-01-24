@@ -11,12 +11,3 @@ export const Header = styled.h2`
   margin: 0,
   text-align: center;
 `;
-
-export const Paragraph = styled.p`
-  display: flex;
-  align-items: center;
-`;
-
-export const Bold = styled.b`
-  margin-right: 8px;
-`

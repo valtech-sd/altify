@@ -1,7 +1,8 @@
 import { func, string, bool } from 'prop-types';
+import { Bold, Paragraph } from '../../styles/globalStyles';
 
 import Button from '../Button';
-import { Bold, Container, Header, Paragraph } from './styles';
+import { Container, Header } from './styles';
 
 const propTypes = {
   onClick: func.isRequired,
@@ -14,9 +15,9 @@ const propTypes = {
 const defaultProps = {
   suggestion: '',
   chatGTP: '',
-}
+};
 
-const Card = ({ onClick, header, fetched, suggestion, chatGTP }) => {
+const Card = ({ onClick, header, fetched, suggestion, chatGTP, altText }) => {
   return (
     <div style={{ marginTop: 5 }}>
       {!fetched ? (
