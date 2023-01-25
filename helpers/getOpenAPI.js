@@ -1,10 +1,11 @@
-import { serverUrl } from "../constants/constants";
+import { serverUrl } from '../constants/constants';
 
-export default async function getOpenAPI(tags) {
+export default async function getOpenAPI(tags, password) {
   const response = await fetch(`${serverUrl}/openAPI`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      authentication: password,
     },
     body: JSON.stringify({ tags }),
   });
