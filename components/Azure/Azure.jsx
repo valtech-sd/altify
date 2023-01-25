@@ -17,7 +17,7 @@ const defaultProps = {
   },
 };
 
-const Azure = ({ src }) => {
+const Azure = ({ src, password }) => {
   const [fetched, setFetched] = useState(false);
   const [suggestion, setSuggestion] = useState(null);
   const [chatGTP, setChatGPT] = useState(null);
@@ -28,7 +28,7 @@ const Azure = ({ src }) => {
       try {
         const characteristics = resp.tags.map((tag) => tag.name);
         characteristics.push(resp.description.captions[0].text);
-        const response = await getOpenAPI(characteristics);
+        const response = await getOpenAPI(characteristics, password);
         setChatGPT(response);
         setSuggestion(resp.description.captions[0].text);
       } catch (error) {

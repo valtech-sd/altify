@@ -5,7 +5,7 @@ const AltText = ({ altText }) => {
   return (
     <Container>
       <Paragraph>
-        <Bold>Provided Alt Text: </Bold>
+        <Bold>Current Alt Tag: </Bold>
         {altText}
       </Paragraph>
     </Container>

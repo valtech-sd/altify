@@ -9,24 +9,26 @@ const propTypes = {
     image: string.isRequired,
     current: string,
   }),
+  password: string,
 };
 
 const defaultProps = {
   src: {
     current: null,
   },
+  password: null,
 };
 
-const CloudVision = ({ src }) => {
+const CloudVision = ({ src, password }) => {
   const [fetched, setFetched] = useState(false);
   const [suggestion, setSuggestion] = useState(null);
   const [chatGTP, setChatGPT] = useState(null);
 
   function getCloudSuggestion() {
     setFetched(true);
-    getGoogleCloudVision(src.image).then(async (resp) => {
+    getGoogleCloudVision(src.image, password).then(async (resp) => {
       try {
-        const response = await getOpenAPI(resp);
+        const response = await getOpenAPI(resp, password);
         setChatGPT(response);
         setSuggestion(resp.join(', '));
       } catch (error) {
@@ -44,7 +46,7 @@ const CloudVision = ({ src }) => {
 
   useEffect(() => {
     clear();
-  }, [src])
+  }, [src]);
 
   return <Card src={src} onClick={getCloudSuggestion} alt="" header="Cloud Vision" fetched={fetched} suggestion={suggestion} chatGTP={chatGTP} />;
 };
