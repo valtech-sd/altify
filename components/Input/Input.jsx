@@ -1,15 +1,28 @@
-import PropTypes from 'prop-types';
+import { string, func, bool } from 'prop-types';
+
+const propTypes = {
+  name: string,
+  onChange: func,
+  placeholder: string,
+  type: string,
+  value: string,
+  disabled: bool,
+};
 
 const defaultProps = {
-  name: PropTypes.string,
-  onChange: PropTypes.func,
-  placeholder: PropTypes.string,
-  type: PropTypes.string,
-  value: PropTypes.string,
+  name: '',
+  onChange: () => {},
+  placeholder: '',
+  type: 'text',
+  value: '',
+  disabled: false,
+}
+
+const Input = ({ name, onChange, placeholder, type, value, disabled }) => {
+  return <input type={type} disabled={disabled} name={name} placeholder={placeholder} value={value} onChange={onChange} />;
 };
 
-const Input = ({ name, onChange, placeholder, type, value }) => {
-  return <input type={type} name={name} placeholder={placeholder} value={value} onChange={onChange} />;
-};
+Input.propTypes = propTypes;
+Input.defaultProps = defaultProps;
 
 export default Input;
