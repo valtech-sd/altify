@@ -74,7 +74,7 @@ export default function Home() {
             value={password}
             onChange={handlePasswordChange}
           />
-          <input disabled={!password || !imageInput} type="submit" value="Analize URL" />
+          <input disabled={!password || !imageInput} type="submit" value="Analyze URL" />
           <p>Images found: {result?.length}</p>
         </form>
         <div
