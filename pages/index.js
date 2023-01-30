@@ -85,17 +85,11 @@ export default function Home() {
             marginTop: '20px',
           }}
         >
-          <div style={{ margin: '0 auto' }}>{loading && <div className="loading-bar"></div>}</div>
-          {result && (
-            <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
-              <Masonry gutter="1.5rem">
-                {Array.isArray(result) &&
-                  result.map((image, idx) => {
-                    return <ImageCard key={`altify-image-${idx}`} index={idx} image={image} password={password} />;
-                  })}
-              </Masonry>
-            </ResponsiveMasonry>
-          )}
+          <div style={{ margin: '0 auto', height: 36 }}>{loading && <div className="loading-bar"></div>}</div>
+          {Array.isArray(result) &&
+            result.map((image, idx) => {
+              return <ImageCard key={`altify-image-${idx}`} index={idx} image={image} password={password} />;
+            })}
         </div>
       </main>
     </div>
