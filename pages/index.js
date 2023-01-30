@@ -19,7 +19,7 @@ export default function Home() {
 
   async function onSubmit(event) {
     event.preventDefault();
-    if (length > 0) {
+    if (result?.length > 0) {
       clearState();
     }
     setLoading(true);
