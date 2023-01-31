@@ -13,6 +13,10 @@
   "dependencies": {
     "@azure/cognitiveservices-computervision": "^8.2.0",
     "@azure/ms-rest-js": "^2.6.4",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/lab": "^5.0.0-alpha.118",
+    "@mui/material": "^5.11.6",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
     "jsdom": "^20.0.3",

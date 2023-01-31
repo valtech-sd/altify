@@ -1,4 +1,3 @@
-export { default as AltText } from "./AltText";
 export { default as Azure } from "./Azure";
 export { default as Button } from "./Button";
 export { default as Card } from "./Card";

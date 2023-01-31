@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { styled as MUIStyled } from '@mui/system';
 
 export const Container = styled.div`
-  border-radius: 4px;
-  border: 1px solid #424242;
-  padding: 10px;
+  display: flex;
+  marginTop: 5;
+  width: 100%;
 `;
 
 export const Header = styled.h2`
@@ -11,3 +12,7 @@ export const Header = styled.h2`
   margin: 0,
   text-align: center;
 `;
+
+export const Wrapper = MUIStyled('div')({
+
+});
