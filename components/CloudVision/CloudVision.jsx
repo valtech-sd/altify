@@ -20,8 +20,7 @@ const defaultProps = {
 };
 
 const CloudVision = ({ src, password, creativity }) => {
-  const [loadingSuggestion, setLoadingSuggestion] = useState(false);
-  const [loadingChatGPT, setLoadingChatGPT] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [cloudVisionResponse, setCloudVisionResponse] = useState(null);
   const [suggestion, setSuggestion] = useState(null);
   const [lightGPTSuggestion, setLightGPTSuggestion] = useState(null);
@@ -30,7 +29,7 @@ const CloudVision = ({ src, password, creativity }) => {
   const [chatGTP, setChatGPT] = useState(null);
 
   function getCloudSuggestion() {
-    setLoadingSuggestion(true);
+    setLoading(true);
     getGoogleCloudVision(src.image, password).then((resp) => {
       try {
         setSuggestion(resp.join(', '));
@@ -39,7 +38,7 @@ const CloudVision = ({ src, password, creativity }) => {
       } catch (error) {
         console.log(error);
       } finally {
-        setLoadingSuggestion(false);
+        // setLoading(false);
       }
     });
   }
@@ -60,7 +59,7 @@ const CloudVision = ({ src, password, creativity }) => {
     }
 
     setChatGPT(null);
-    setLoadingChatGPT(true);
+    setLoading(true);
     const response = await getOpenAPI(googleCloudResponse, password, creativity);
     if (creativity == 0) {
       setLightGPTSuggestion(response);
@@ -72,11 +71,11 @@ const CloudVision = ({ src, password, creativity }) => {
       setHighGPTSuggestion(response);
     }
     setChatGPT(response);
-    setLoadingChatGPT(false);
+    setLoading(false);
   }
 
   function clear() {
-    setLoadingSuggestion(false);
+    setLoading(false);
     setSuggestion(null);
     setChatGPT(null);
   }
@@ -89,20 +88,11 @@ const CloudVision = ({ src, password, creativity }) => {
     if (suggestion) {
       makeChatGPTRequest(cloudVisionResponse);
     }
-  }, [cloudVisionResponse, creativity, makeChatGPTRequest, suggestion]);
+  }, [creativity]);
 
-  return (
-    <Card
-      src={src}
-      onClick={getCloudSuggestion}
-      alt=""
-      header="Cloud Vision"
-      suggestion={suggestion}
-      chatGTP={chatGTP}
-      loadingSuggestion={loadingSuggestion}
-      loadingChatGPT={loadingChatGPT}
-    />
-  );
+  console.log('loading: ', loading);
+
+  return <Card src={src} onClick={getCloudSuggestion} alt="" header="Cloud Vision" suggestion={suggestion} chatGTP={chatGTP} loading={loading} />;
 };
 
 CloudVision.propTypes = propTypes;

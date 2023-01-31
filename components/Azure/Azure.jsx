@@ -18,8 +18,7 @@ const defaultProps = {
 };
 
 const Azure = ({ src, password, creativity }) => {
-  const [loadingSuggestion, setLoadingSuggestion] = useState(false);
-  const [loadingChatGPT, setLoadingChatGPT] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [characteristics, setCharacteristics] = useState(null);
   const [suggestion, setSuggestion] = useState(null);
   const [lightGPTSuggestion, setLightGPTSuggestion] = useState(null);
@@ -28,7 +27,7 @@ const Azure = ({ src, password, creativity }) => {
   const [chatGTP, setChatGPT] = useState(null);
 
   function getAzureSuggestion() {
-    setLoadingSuggestion(true);
+    setLoading(true);
     getAzureComputerVision(src.image).then((resp) => {
       try {
         const characteristics = resp.tags.map((tag) => tag.name);
@@ -39,7 +38,7 @@ const Azure = ({ src, password, creativity }) => {
       } catch (error) {
         console.log(error);
       } finally {
-        setLoadingSuggestion(false);
+        // setLoading(false);
       }
     });
   }
@@ -60,7 +59,7 @@ const Azure = ({ src, password, creativity }) => {
     }
 
     setChatGPT(null);
-    setLoadingChatGPT(true);
+    setLoading(true);
     const response = await getOpenAPI(characteristics, password, creativity);
     if (creativity == 0) {
       setLightGPTSuggestion(response);
@@ -72,11 +71,11 @@ const Azure = ({ src, password, creativity }) => {
       setHighGPTSuggestion(response);
     }
     setChatGPT(response);
-    setLoadingChatGPT(false);
+    setLoading(false);
   }
 
   function clear() {
-    setLoadingSuggestion(false);
+    setLoading(false);
     setSuggestion(null);
     setChatGPT(null);
   }
@@ -89,20 +88,9 @@ const Azure = ({ src, password, creativity }) => {
     if (suggestion) {
       makeChatGPTRequest(characteristics);
     }
-  }, [characteristics, creativity, makeChatGPTRequest, suggestion]);
+  }, [creativity]);
 
-  return (
-    <Card
-      src={src}
-      onClick={getAzureSuggestion}
-      alt=""
-      header="Azure"
-      suggestion={suggestion}
-      chatGTP={chatGTP}
-      loadingSuggestion={loadingSuggestion}
-      loadingChatGPT={loadingChatGPT}
-    />
-  );
+  return <Card src={src} onClick={getAzureSuggestion} alt="" header="Azure" suggestion={suggestion} chatGTP={chatGTP} loading={loading} />;
 };
 
 Azure.propTypes = propTypes;

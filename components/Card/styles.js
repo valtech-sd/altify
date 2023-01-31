@@ -4,6 +4,7 @@ import { styled as MUIStyled } from '@mui/system';
 export const Container = styled.div`
   display: flex;
   marginTop: 5;
+  width: 100%;
 `;
 
 export const Header = styled.h2`
@@ -13,6 +14,5 @@ export const Header = styled.h2`
 `;
 
 export const Wrapper = MUIStyled('div')({
-  display: 'flex',
-  flexDirection: 'row',
+
 });

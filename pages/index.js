@@ -75,7 +75,6 @@ export default function Home() {
             onChange={handlePasswordChange}
           />
           <input disabled={!password || !imageInput} type="submit" value="Analyze URL" />
-          <p>Images found: {result?.length}</p>
         </form>
         <div
           style={{
@@ -86,9 +85,10 @@ export default function Home() {
           }}
         >
           <div style={{ margin: '0 auto', height: 36 }}>{loading && <div className="loading-bar"></div>}</div>
+          {result?.length && <p style={{ marginBottom: -20 }}>Images found: {result.length}</p>}
           {Array.isArray(result) &&
             result.map((image, idx) => {
-              return <ImageCard key={`altify-image-${idx}`} index={idx} image={image} password={password} />;
+              return <ImageCard key={`altify-image-${idx}`} index={idx} image={image} password={password} total={result?.length} />;
             })}
         </div>
       </main>
