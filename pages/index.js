@@ -68,7 +68,7 @@ export default function Home() {
       <main className={styles.main}>
         <form onSubmit={onSubmit}>
           <img src="./valtechLogo-black.png" className={styles.icon} />
-          <Input type="text" name="image url" placeholder="Enter a url" value={imageInput} onChange={handleInputChange} />
+          <Input type="text" name="image url" placeholder="Enter a url" value={imageInput} onChange={handleInputChange} fullWidth />
           <input disabled={!imageInput} type="submit" value="Analyze URL" />
         </form>
         <div
