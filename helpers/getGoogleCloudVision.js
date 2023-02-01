@@ -1,4 +1,4 @@
-import { localUrl, serverUrl } from "../constants/constants";
+import { serverUrl } from "../constants/constants";
 
 export default async function getGoogleCloudVision(src, password) {
   const headers = {

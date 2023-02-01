@@ -1,10 +1,9 @@
 import Head from 'next/head';
 import { useState } from 'react';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import styles from './index.module.css';
 import { serverUrl } from '../constants/constants';
-import { Input, ImageCard } from '../components';
+import { Input, ImageCard, Alert } from '../components';
 
 export default function Home() {
   const [imageInput, setImageInput] = useState('');
@@ -55,6 +54,10 @@ export default function Home() {
     setImageInput(event.target.value);
   }
 
+  if (!correctPassword) {
+    return <Alert setCorrectPassword={setCorrectPassword} handlePasswordChange={handlePasswordChange} password={password} />;
+  }
+
   return (
     <div>
       <Head>
@@ -66,15 +69,7 @@ export default function Home() {
         <form onSubmit={onSubmit}>
           <img src="./valtechLogo-black.png" className={styles.icon} />
           <Input type="text" name="image url" placeholder="Enter a url" value={imageInput} onChange={handleInputChange} />
-          <Input
-            disabled={correctPassword}
-            type="password"
-            name="password"
-            placeholder="Enter the password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-          <input disabled={!password || !imageInput} type="submit" value="Analyze URL" />
+          <input disabled={!imageInput} type="submit" value="Analyze URL" />
         </form>
         <div
           style={{
