@@ -17,4 +17,8 @@ export const Button = styled(LoadingButton)({
     backgroundColor: 'rgb(118, 248, 176)',
     border: 'none',
   },
+  '&:disabled': {
+    cursor: 'not-allowed',
+    pointerEvents: 'all !important',
+  },
 });

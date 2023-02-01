@@ -90,9 +90,7 @@ const CloudVision = ({ src, password, creativity }) => {
     }
   }, [creativity]);
 
-  console.log('loading: ', loading);
-
-  return <Card src={src} onClick={getCloudSuggestion} alt="" header="Cloud Vision" suggestion={suggestion} chatGTP={chatGTP} loading={loading} />;
+  return <Card onClick={getCloudSuggestion} alt="" header="Cloud Vision" suggestion={suggestion} chatGTP={chatGTP} loading={loading} />;
 };
 
 CloudVision.propTypes = propTypes;

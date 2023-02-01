@@ -80,6 +80,10 @@ const Azure = ({ src, password, creativity }) => {
     setChatGPT(null);
   }
 
+  function isUnSupported(image) {
+    return image.endsWith('.gif');
+  }
+
   useEffect(() => {
     clear();
   }, [src]);
@@ -90,7 +94,17 @@ const Azure = ({ src, password, creativity }) => {
     }
   }, [creativity]);
 
-  return <Card src={src} onClick={getAzureSuggestion} alt="" header="Azure" suggestion={suggestion} chatGTP={chatGTP} loading={loading} />;
+  return (
+    <Card
+      onClick={getAzureSuggestion}
+      alt=""
+      header="Azure"
+      suggestion={suggestion}
+      chatGTP={chatGTP}
+      loading={loading}
+      unsupported={isUnSupported(src.image)}
+    />
+  );
 };
 
 Azure.propTypes = propTypes;
