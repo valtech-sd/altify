@@ -17,7 +17,7 @@ const Butt = styled(Button)({
   color: green,
   fontWeight: 'bold',
   letterSpacing: '1px',
-})
+});
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -32,7 +32,8 @@ const propTypes = {
 const Alert = ({ setCorrectPassword, handlePasswordChange, password }) => {
   const [open, setOpen] = useState(true);
 
-  async function handleClose() {
+  async function handleClose(event) {
+    event.preventDefault();
     if (!password) return;
 
     try {
@@ -60,17 +61,17 @@ const Alert = ({ setCorrectPassword, handlePasswordChange, password }) => {
   }
 
   return (
-    <div>
-      <Dialog open={open} TransitionComponent={Transition} keepMounted aria-describedby="alert-dialog-slide-description">
-        <DialogTitle>Please enter the password</DialogTitle>
-        <DialogContent>
+    <Dialog open={open} TransitionComponent={Transition} keepMounted aria-describedby="alert-dialog-slide-description">
+      <DialogTitle>Please enter the password</DialogTitle>
+      <DialogContent>
+        <form onSubmit={handleClose}>
           <Input type="password" fullWidth value={password} onChange={handlePasswordChange} />
-        </DialogContent>
-        <DialogActions>
-          <Butt onClick={handleClose}>Enter</Butt>
-        </DialogActions>
-      </Dialog>
-    </div>
+        </form>
+      </DialogContent>
+      <DialogActions>
+        <Butt onClick={handleClose}>Enter</Butt>
+      </DialogActions>
+    </Dialog>
   );
 };
 

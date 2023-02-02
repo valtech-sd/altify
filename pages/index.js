@@ -21,6 +21,20 @@ export default function Home() {
     if (result?.length > 0) {
       clearState();
     }
+
+    let url;
+    if (imageInput.startsWith('www')) {
+      url = `https://${imageInput}`;
+    } else if (!imageInput.startsWith('https://')) {
+      url = `https://${imageInput}`;
+    } else {
+      url = imageInput;
+    }
+
+    if (url !== imageInput) {
+      setImageInput(url);
+    }
+
     setLoading(true);
     const response = await fetch(`${serverUrl}/generate`, {
       method: 'POST',
@@ -28,7 +42,7 @@ export default function Home() {
         'Content-Type': 'application/json',
         authentication: password,
       },
-      body: JSON.stringify({ url: imageInput }),
+      body: JSON.stringify({ url }),
     });
     if (response.status === 401) {
       setLoading(false);
@@ -42,7 +56,7 @@ export default function Home() {
       alert('No images found');
       return;
     }
-    setResult(data.result.filter((res) => !res.src?.endsWith('.svg')));
+    setResult(data.result);
     setLoading(false);
   }
 
@@ -58,6 +72,8 @@ export default function Home() {
     return <Alert setCorrectPassword={setCorrectPassword} handlePasswordChange={handlePasswordChange} password={password} />;
   }
 
+  console.log('result', result)
+
   return (
     <div>
       <Head>
@@ -69,7 +85,7 @@ export default function Home() {
         <form onSubmit={onSubmit}>
           <img src="./valtechLogo-black.png" className={styles.icon} />
           <Input type="text" name="image url" placeholder="Enter a url" value={imageInput} onChange={handleInputChange} fullWidth />
-          <input disabled={!imageInput} type="submit" value="Analyze URL" />
+          <input disabled={!imageInput} type="submit" value="Analyze URL" style={{ width: 320 }} />
         </form>
         <div
           style={{

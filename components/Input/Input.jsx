@@ -40,7 +40,7 @@ const Field = styled(TextField)({
   },
   '& input:valid:focus + fieldset': {
     borderLeftWidth: 6,
-    padding: '4px !important',
+    padding: '4px',
     borderColor: green,
   },
 });
