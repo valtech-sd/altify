@@ -53,7 +53,7 @@ export default function Home() {
     const data = await response.json();
     if (data.result.length === 0) {
       setLoading(false);
-      alert('No images found');
+      alert('No image tags found');
       return;
     }
     setResult(data.result);
@@ -69,7 +69,7 @@ export default function Home() {
   }
 
   if (!correctPassword) {
-    return <Alert setCorrectPassword={setCorrectPassword} handlePasswordChange={handlePasswordChange} password={password} />;
+    return <Alert autoFocus setCorrectPassword={setCorrectPassword} handlePasswordChange={handlePasswordChange} password={password} />;
   }
 
   console.log('result', result)
@@ -84,7 +84,7 @@ export default function Home() {
       <main className={styles.main}>
         <form onSubmit={onSubmit}>
           <img src="./valtechLogo-black.png" className={styles.icon} />
-          <Input type="text" name="image url" placeholder="Enter a url" value={imageInput} onChange={handleInputChange} fullWidth />
+          <Input autoFocus type="text" name="image url" placeholder="Enter a url" value={imageInput} onChange={handleInputChange} fullWidth />
           <input disabled={!imageInput} type="submit" value="Analyze URL" style={{ width: 320 }} />
         </form>
         <div

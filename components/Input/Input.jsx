@@ -10,6 +10,7 @@ const propTypes = {
   placeholder: string,
   type: string,
   value: string,
+  autoFocus: bool,
 };
 
 const defaultProps = {
@@ -20,6 +21,7 @@ const defaultProps = {
   placeholder: '',
   type: 'text',
   value: '',
+  autoFocus: false,
 };
 
 const green = 'rgb(118, 248, 176)';
@@ -45,10 +47,11 @@ const Field = styled(TextField)({
   },
 });
 
-const Input = ({ name, onChange, placeholder, type, value, disabled, fullWidth }) => {
+const Input = ({ name, onChange, placeholder, type, value, disabled, fullWidth, autoFocus }) => {
   return (
     <Field
       sx={{ marginBottom: 3 }}
+      autoFocus={autoFocus}
       type={type}
       disabled={disabled}
       name={name}

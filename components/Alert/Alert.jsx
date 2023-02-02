@@ -65,7 +65,7 @@ const Alert = ({ setCorrectPassword, handlePasswordChange, password }) => {
       <DialogTitle>Please enter the password</DialogTitle>
       <DialogContent>
         <form onSubmit={handleClose}>
-          <Input type="password" fullWidth value={password} onChange={handlePasswordChange} />
+          <Input autoFocus type="password" fullWidth value={password} onChange={handlePasswordChange} />
         </form>
       </DialogContent>
       <DialogActions>
