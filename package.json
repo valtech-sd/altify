@@ -27,5 +27,8 @@
     "react-dom": "18.2.0",
     "react-responsive-masonry": "^2.1.6",
     "styled-components": "^5.3.6"
+  },
+  "devDependencies": {
+    "prettier": "2.8.3"
   }
 }

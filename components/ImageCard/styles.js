@@ -4,7 +4,7 @@ import { Paper } from '@mui/material';
 export const Container = MUIStyled(Paper)({
   display: 'flex',
   marginTop: 50,
-  // flexDirection: 'column'
+  boxShadow: 'none',
 });
 
 export const ImageContainer = MUIStyled('div')({
@@ -18,12 +18,42 @@ export const ResultsContainer = MUIStyled('div')({
   marginLeft: 20,
   display: 'flex',
   flexDirection: 'column',
+  border: '1px solid #909EB0',
+  borderRadius: '5px',
 });
 
 export const Wrapper = MUIStyled('div')({
+  borderTop: '1px solid #909EB0',
   display: 'flex',
   flex: 1,
   alignItems: 'center',
   padding: '20px',
+
+  '&:nth-child(1)': {
+    borderTop: 'none',
+  },
 });
 
+export const Label = MUIStyled('div')({
+  fontSize: '18px',
+  lineHeight: '18px',
+  display: 'flex',
+  alignItems: 'center',
+});
+
+export const SelectStyles = {
+  fontSize: 18,
+  color: 'black',
+  '.MuiOutlinedInput-notchedOutline': {
+    borderColor: 'rgb(118, 248, 176)',
+  },
+  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    borderColor: 'rgb(118, 248, 176)',
+  },
+  '&:hover .MuiOutlinedInput-notchedOutline': {
+    borderColor: 'rgb(118, 248, 176)',
+  },
+  '.MuiSvgIcon-root ': {
+    fill: 'black !important',
+  },
+};

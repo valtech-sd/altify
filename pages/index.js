@@ -69,22 +69,37 @@ export default function Home() {
   }
 
   if (!correctPassword) {
-    return <Alert autoFocus setCorrectPassword={setCorrectPassword} handlePasswordChange={handlePasswordChange} password={password} />;
+    return (
+      <Alert
+        autoFocus
+        setCorrectPassword={setCorrectPassword}
+        handlePasswordChange={handlePasswordChange}
+        password={password}
+      />
+    );
   }
 
-  console.log('result', result)
+  console.log('result', result);
 
   return (
     <div>
       <Head>
-        <title>OpenAI Quickstart</title>
+        <title>Altify - Valtech Future Studio</title>
         <link rel="icon" href="/valtechLogo-black.png" />
       </Head>
 
       <main className={styles.main}>
         <form onSubmit={onSubmit}>
           <img src="./valtechLogo-black.png" className={styles.icon} />
-          <Input autoFocus type="text" name="image url" placeholder="Enter a url" value={imageInput} onChange={handleInputChange} fullWidth />
+          <Input
+            autoFocus
+            type="text"
+            name="image url"
+            placeholder="Enter a url"
+            value={imageInput}
+            onChange={handleInputChange}
+            fullWidth
+          />
           <input disabled={!imageInput} type="submit" value="Analyze URL" style={{ width: 320 }} />
         </form>
         <div
@@ -99,7 +114,15 @@ export default function Home() {
           {result?.length && <p style={{ marginBottom: -20 }}>Images found: {result.length}</p>}
           {Array.isArray(result) &&
             result.map((image, idx) => {
-              return <ImageCard key={`altify-image-${idx}`} index={idx} image={image} password={password} total={result?.length} />;
+              return (
+                <ImageCard
+                  key={`altify-image-${idx}`}
+                  index={idx}
+                  image={image}
+                  password={password}
+                  total={result?.length}
+                />
+              );
             })}
         </div>
       </main>

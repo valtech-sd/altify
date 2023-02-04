@@ -3,7 +3,7 @@ import { styled as MUIStyled } from '@mui/system';
 
 export const Container = styled.div`
   display: flex;
-  marginTop: 5;
+  margin-top: 5;
   width: 100%;
 `;
 
@@ -13,6 +13,8 @@ export const Header = styled.h2`
   text-align: center;
 `;
 
-export const Wrapper = MUIStyled('div')({
-
+export const TagLabel = MUIStyled('div')({
+  fontWeight: 'bold',
+  paddingLeft: 40,
+  minWidth: 200,
 });

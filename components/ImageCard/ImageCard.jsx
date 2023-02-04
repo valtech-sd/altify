@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { number, object, string } from 'prop-types';
 
 import { Azure, CloudVision } from '../../components';
-import { Container, ImageContainer, ResultsContainer, Wrapper } from './styles';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Container, ImageContainer, ResultsContainer, Wrapper, Label, SelectStyles } from './styles';
+import { FormControl, MenuItem, Select } from '@mui/material';
 
 const propTypes = {
   image: object.isRequired,
@@ -35,15 +35,15 @@ const ImageCard = ({ image, password, index, total }) => {
         </ImageContainer>
         <ResultsContainer elevation={8}>
           <Wrapper>
-            <div style={{ display: 'flex', flex: 2 }}>
-              <FormControl fullWidth>
-                <InputLabel id="creativity-select-label">GPT Creativity Level</InputLabel>
+            <div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
+              <Label>GPT Creativity Level:</Label>
+              <FormControl sx={{ width: 120, marginLeft: 2 }}>
                 <Select
                   labelId="creativity-select-label"
                   id="creativity-select"
                   value={creativity}
-                  label="GPT Creativity Level"
                   onChange={handleChange}
+                  sx={SelectStyles}
                 >
                   {options.map((option) => (
                     <MenuItem key={option.label} value={option.value}>
@@ -53,10 +53,8 @@ const ImageCard = ({ image, password, index, total }) => {
                 </Select>
               </FormControl>
             </div>
-            <div style={{ display: 'flex', flex: 2, alignItems: 'space-evenly' }}>
-              <p style={{ fontWeight: 'bold', marginLeft: 20 }}>Current Alt Tag: </p>
-            </div>
-            <div style={{ display: 'flex', flex: 3, marginLeft: -80 }}>
+            <div style={{ display: 'flex', flex: 2, alignItems: 'center' }}>
+              <p style={{ fontWeight: 'bold', paddingLeft: 40, minWidth: 200 }}>Current Alt Tag: </p>
               <p>{image.current}</p>
             </div>
           </Wrapper>
