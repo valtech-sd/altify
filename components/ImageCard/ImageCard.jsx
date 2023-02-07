@@ -31,7 +31,9 @@ const ImageCard = ({ image, password, index, total }) => {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Container elevation={8}>
         <ImageContainer>
+          <p style={{ height: '20px', margin: '0 0 20px 0', fontWeight: 'bold' }}>Image {index + 1}</p>
           <img src={image.image} alt="" style={{ width: '100%' }} />
+          <p style={{ visibility: 'hidden', height: '20px', margin: '20px 0 0 0' }}>3</p>
         </ImageContainer>
         <ResultsContainer elevation={8}>
           <Wrapper>
@@ -66,9 +68,6 @@ const ImageCard = ({ image, password, index, total }) => {
           </Wrapper>
         </ResultsContainer>
       </Container>
-      <p>
-        #{index + 1}/{total}
-      </p>
     </div>
   );
 };

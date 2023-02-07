@@ -111,7 +111,7 @@ export default function Home() {
           }}
         >
           <div style={{ margin: '0 auto', height: 36 }}>{loading && <div className="loading-bar"></div>}</div>
-          {result?.length && <p style={{ marginBottom: -20 }}>Images found: {result.length}</p>}
+          {result?.length && <p style={{ marginBottom: -20 }}>{result.length} Images Detected</p>}
           {Array.isArray(result) &&
             result.map((image, idx) => {
               return (

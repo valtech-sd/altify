@@ -5,12 +5,17 @@ export const Container = MUIStyled(Paper)({
   display: 'flex',
   marginTop: 50,
   boxShadow: 'none',
+  background: '#F7F7F7',
+  border: '1px solid #909EB0',
 });
 
 export const ImageContainer = MUIStyled('div')({
-  margin: 'auto',
+  margin: 0,
   flex: 1,
   padding: 20,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
 });
 
 export const ResultsContainer = MUIStyled('div')({
@@ -18,8 +23,7 @@ export const ResultsContainer = MUIStyled('div')({
   marginLeft: 20,
   display: 'flex',
   flexDirection: 'column',
-  border: '1px solid #909EB0',
-  borderRadius: '5px',
+  borderLeft: '1px solid #909EB0',
 });
 
 export const Wrapper = MUIStyled('div')({
