@@ -1,6 +1,6 @@
 import { bool, func, string } from 'prop-types';
 
-import { Button } from './styles';
+import { EditButton } from './styles';
 
 const propTypes = {
   onClick: func.isRequired,
@@ -16,9 +16,9 @@ const defaultProps = {
 
 const Input = ({ onClick, header, loading, disabled }) => {
   return (
-    <Button loading={loading} variant="outlined" onClick={onClick} disabled={disabled}>
+    <EditButton loading={loading} variant="outlined" onClick={onClick} disabled={disabled}>
       {header}
-    </Button>
+    </EditButton>
   );
 };
 

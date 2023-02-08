@@ -27,6 +27,11 @@ const Azure = ({ src, password, creativity }) => {
   const [chatGTP, setChatGPT] = useState(null);
 
   function getAzureSuggestion() {
+    if (suggestion) {
+      setCharacteristics(characteristics);
+      makeChatGPTRequest(suggestion);
+      return;
+    }
     setLoading(true);
     getAzureComputerVision(src.image).then((resp) => {
       try {
@@ -45,22 +50,23 @@ const Azure = ({ src, password, creativity }) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function makeChatGPTRequest(characteristics) {
-    if (creativity == 0 && lightGPTSuggestion) {
-      setChatGPT(lightGPTSuggestion);
-      return;
-    }
-    if (creativity == 0.5 && mediumGPTSuggestion) {
-      setChatGPT(mediumGPTSuggestion);
-      return;
-    }
-    if (creativity == 1 && highGPTSuggestion) {
-      setChatGPT(highGPTSuggestion);
-      return;
-    }
+    // if (creativity == 0 && lightGPTSuggestion) {
+    //   setChatGPT(lightGPTSuggestion);
+    //   return;
+    // }
+    // if (creativity == 0.5 && mediumGPTSuggestion) {
+    //   setChatGPT(mediumGPTSuggestion);
+    //   return;
+    // }
+    // if (creativity == 1 && highGPTSuggestion) {
+    //   setChatGPT(highGPTSuggestion);
+    //   return;
+    // }
 
     setChatGPT(null);
     setLoading(true);
     const response = await getOpenAPI(characteristics, password, creativity);
+
     if (creativity == 0) {
       setLightGPTSuggestion(response);
     }
@@ -100,6 +106,9 @@ const Azure = ({ src, password, creativity }) => {
       alt=""
       header="Azure"
       suggestion={suggestion}
+      onUpdateSuggestions={(updatedSuggestion) => {
+        setSuggestion(updatedSuggestion.split(','));
+      }}
       chatGTP={chatGTP}
       loading={loading}
       unsupported={isUnSupported(src.image)}

@@ -33,7 +33,7 @@ export const Wrapper = MUIStyled('div')({
   alignItems: 'center',
   padding: '20px',
 
-  '&:nth-child(1)': {
+  '&:nth-of-type(1)': {
     borderTop: 'none',
   },
 });
