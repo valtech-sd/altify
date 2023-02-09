@@ -1,4 +1,4 @@
-import { serverUrl } from "../constants/constants";
+import { serverUrl } from '../constants/constants';
 
 export default async function getGoogleCloudVision(src, password) {
   const headers = {
@@ -7,7 +7,7 @@ export default async function getGoogleCloudVision(src, password) {
     'Access-Control-Allow-Methods': 'POST',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     image: src,
-    authentication: password
+    authentication: password,
   };
 
   try {

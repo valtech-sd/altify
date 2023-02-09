@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import styles from './index.module.css';
 import { serverUrl } from '../constants/constants';
-import { Input, ImageCard, Alert } from '../components';
+import { Input, ImageCard, Alert, Button, BasicAlertDialog } from '../components';
 
 export default function Home() {
   const [imageInput, setImageInput] = useState('');
@@ -11,6 +11,9 @@ export default function Home() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [correctPassword, setCorrectPassword] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const toggleShowAlert = () => setShowAlert((value) => !value);
 
   function clearState() {
     setResult(null);
@@ -89,6 +92,9 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        {showAlert && (
+          <BasicAlertDialog toggleShowAlert={toggleShowAlert} title="Export Completed" buttonText="Close" />
+        )}
         <form onSubmit={onSubmit}>
           <img src="./valtechLogo-black.png" className={styles.icon} />
           <Input
@@ -100,18 +106,24 @@ export default function Home() {
             onChange={handleInputChange}
             fullWidth
           />
-          <input disabled={!imageInput} type="submit" value="Analyze URL" style={{ width: 320 }} />
+          <input disabled={!imageInput} type="submit" value="Analyze URL" style={{ width: 320, height: '60px' }} />
         </form>
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
             width: '80%',
-            marginTop: '20px',
+            margin: '24px 0 80px',
           }}
         >
           <div style={{ margin: '0 auto', height: 36 }}>{loading && <div className="loading-bar"></div>}</div>
-          {result?.length && <p style={{ marginBottom: -20 }}>{result.length} Images Detected</p>}
+          {result?.length && (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <p style={{ marginBottom: -20 }}>{result.length} Images Detected</p>
+              <Button secondary exact="true" onClick={toggleShowAlert} header="Export to CMS" sx={{ width: '180px' }} />
+            </div>
+          )}
+
           {Array.isArray(result) &&
             result.map((image, idx) => {
               return (

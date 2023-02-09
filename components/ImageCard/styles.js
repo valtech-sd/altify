@@ -15,7 +15,7 @@ export const ImageContainer = MUIStyled('div')({
   padding: 20,
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'space-between',
+  justifyContent: 'flex-start',
 });
 
 export const ResultsContainer = MUIStyled('div')({
@@ -30,23 +30,26 @@ export const Wrapper = MUIStyled('div')({
   borderTop: '1px solid #909EB0',
   display: 'flex',
   flex: 1,
-  alignItems: 'center',
+  alignItems: 'flex-start',
   padding: '20px',
 
-  '&:nth-child(1)': {
+  '&:nth-of-type(1)': {
     borderTop: 'none',
   },
 });
 
 export const Label = MUIStyled('div')({
-  fontSize: '18px',
-  lineHeight: '18px',
+  fontSize: '16px',
+  fontWeight: 'bold',
   display: 'flex',
   alignItems: 'center',
+  padding: '0 0 20px 0',
+  margin: 0,
 });
 
 export const SelectStyles = {
   fontSize: 18,
+  height: '60px',
   color: 'black',
   '.MuiOutlinedInput-notchedOutline': {
     borderColor: 'rgb(118, 248, 176)',
