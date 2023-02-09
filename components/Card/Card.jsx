@@ -33,8 +33,6 @@ const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported }) =>
   const handleInputChange = (e) => setChatGTPEdits(e.target.value);
   const toggleShowAlert = () => setShowAlert((value) => !value);
 
-  console.log('loading', loading);
-
   return (
     <>
       {showAlert && <BasicAlertDialog toggleShowAlert={toggleShowAlert} title="Saved to CMS" buttonText="Close" />}
