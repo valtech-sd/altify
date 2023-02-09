@@ -10,7 +10,17 @@ const key = process.env.NEXT_PUBLIC_MS_CV_API_KEY;
 const endpoint = process.env.NEXT_PUBLIC_MS_CV_ENDPOINT;
 
 // Cognitive service features
-const visualFeatures = ['ImageType', 'Faces', 'Adult', 'Categories', 'Color', 'Tags', 'Description', 'Objects', 'Brands'];
+const visualFeatures = [
+  'ImageType',
+  'Faces',
+  'Adult',
+  'Categories',
+  'Color',
+  'Tags',
+  'Description',
+  'Objects',
+  'Brands',
+];
 
 export const isConfigured = () => {
   const result = key && endpoint && key.length > 0 && endpoint.length > 0 ? true : false;
@@ -52,18 +62,23 @@ export default async function getAzureComputerVision(url) {
   // get image URL - entered in form or random from Default Images
   const urlToAnalyze = url;
 
-  // analyze image
-  const analysis = await computerVisionClient.analyzeImage(urlToAnalyze, {
-    visualFeatures,
-  });
+  try {
+    // analyze image
+    const analysis = await computerVisionClient.analyzeImage(urlToAnalyze, {
+      visualFeatures,
+    });
 
-  // text detected - what does it say and where is it
-  if (includesText(analysis.tags) || includesHandwriting(analysis.tags)) {
-    analysis.text = await readTextFromURL(computerVisionClient, urlToAnalyze);
+    // text detected - what does it say and where is it
+    if (includesText(analysis.tags) || includesHandwriting(analysis.tags)) {
+      analysis.text = await readTextFromURL(computerVisionClient, urlToAnalyze);
+    }
+
+    // all information about image
+    return { URL: urlToAnalyze, ...analysis };
+  } catch (error) {
+    console.log('Error:', error);
+    throw Error(error);
   }
-
-  // all information about image
-  return { URL: urlToAnalyze, ...analysis };
 }
 // analyze text in image
 const readTextFromURL = async (client, url) => {

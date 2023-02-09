@@ -31,33 +31,23 @@ const CloudVision = ({ src, password, creativity }) => {
   function getCloudSuggestion() {
     setLoading(true);
     getGoogleCloudVision(src.image, password).then((resp) => {
-      try {
-        setSuggestion(resp.join(', '));
-        setCloudVisionResponse(resp);
-        makeChatGPTRequest(resp);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        // setLoading(false);
+      if (resp.length > 0) {
+        try {
+          setSuggestion(resp.join(', '));
+          setCloudVisionResponse(resp);
+          makeChatGPTRequest(resp);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        setLoading(false);
+        alert('No tags were detected.');
       }
     });
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function makeChatGPTRequest(googleCloudResponse) {
-    if (creativity == 0 && lightGPTSuggestion) {
-      setChatGPT(lightGPTSuggestion);
-      return;
-    }
-    if (creativity == 0.5 && mediumGPTSuggestion) {
-      setChatGPT(mediumGPTSuggestion);
-      return;
-    }
-    if (creativity == 1 && highGPTSuggestion) {
-      setChatGPT(highGPTSuggestion);
-      return;
-    }
-
     setChatGPT(null);
     setLoading(true);
     const response = await getOpenAPI(googleCloudResponse, password, creativity);
@@ -70,7 +60,7 @@ const CloudVision = ({ src, password, creativity }) => {
     if (creativity == 1) {
       setHighGPTSuggestion(response);
     }
-    setChatGPT(response);
+    setChatGPT(response.trim());
     setLoading(false);
   }
 
@@ -90,7 +80,16 @@ const CloudVision = ({ src, password, creativity }) => {
     }
   }, [creativity]);
 
-  return <Card onClick={getCloudSuggestion} alt="" header="Cloud Vision" suggestion={suggestion} chatGTP={chatGTP} loading={loading} />;
+  return (
+    <Card
+      onClick={getCloudSuggestion}
+      alt=""
+      header="Google Cloud Vision"
+      suggestion={suggestion}
+      chatGTP={chatGTP}
+      loading={loading}
+    />
+  );
 };
 
 CloudVision.propTypes = propTypes;

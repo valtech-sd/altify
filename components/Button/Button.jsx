@@ -14,10 +14,10 @@ const defaultProps = {
   disabled: false,
 };
 
-const Input = ({ onClick, header, loading, disabled }) => {
+const Input = ({ onClick, header, loading, disabled, secondary = false, sx }) => {
   return (
-    <Button loading={loading} variant="outlined" onClick={onClick} disabled={disabled}>
-      Generate Tag {header}
+    <Button loading={loading} variant="outlined" onClick={onClick} disabled={disabled} secondary={secondary} sx={sx}>
+      {header}
     </Button>
   );
 };

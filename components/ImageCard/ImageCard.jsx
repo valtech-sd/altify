@@ -31,15 +31,23 @@ const ImageCard = ({ image, password, index, total }) => {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Container elevation={8}>
         <ImageContainer>
-          <p style={{ height: '20px', margin: '0 0 20px 0', fontWeight: 'bold' }}>Image {index + 1}</p>
-          <img src={image.image} alt="" style={{ width: '100%' }} />
+          <div style={{ margin: '0 0 20px 0', fontWeight: 'bold' }}>Image {index + 1}</div>
+          <img src={image.image} alt="You ought to add an alt tag !" style={{ width: '100%', borderRadius: '6px' }} />
           <p style={{ visibility: 'hidden', height: '20px', margin: '20px 0 0 0' }}>3</p>
         </ImageContainer>
         <ResultsContainer elevation={8}>
           <Wrapper>
-            <div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
-              <Label>GPT Creativity Level:</Label>
-              <FormControl sx={{ width: 120, marginLeft: 2 }}>
+            <div
+              style={{
+                display: 'flex',
+                flex: '1 1 0%',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                flexDirection: 'column',
+              }}
+            >
+              <Label>GPT Creativity Level</Label>
+              <FormControl sx={{ width: 120 }}>
                 <Select
                   labelId="creativity-select-label"
                   id="creativity-select"
@@ -55,9 +63,9 @@ const ImageCard = ({ image, password, index, total }) => {
                 </Select>
               </FormControl>
             </div>
-            <div style={{ display: 'flex', flex: 2, alignItems: 'center' }}>
-              <p style={{ fontWeight: 'bold', paddingLeft: 40, minWidth: 200 }}>Current Alt Tag: </p>
-              <p>{image.current}</p>
+            <div style={{ display: 'flex', flex: '2 1 0%', flexDirection: 'column', paddingLeft: '40px' }}>
+              <div style={{ fontWeight: 'bold', minWidth: 200, padding: '0 0 20px 0', margin: 0 }}>Current Alt Tag</div>
+              <div style={{ padding: 0 }}>{image.current}</div>
             </div>
           </Wrapper>
           <Wrapper>

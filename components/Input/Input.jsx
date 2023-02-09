@@ -32,7 +32,13 @@ const Field = styled(TextField)({
     borderWidth: 2,
   },
   '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: green,
+    },
     '&:hover fieldset': {
+      borderColor: green,
+    },
+    '&.Mui-focused fieldset': {
       borderColor: green,
     },
   },
@@ -47,10 +53,10 @@ const Field = styled(TextField)({
   },
 });
 
-const Input = ({ name, onChange, placeholder, type, value, disabled, fullWidth, autoFocus }) => {
+const Input = ({ name, onChange, placeholder, type, value, disabled, fullWidth, autoFocus, multiline, sx }) => {
   return (
     <Field
-      sx={{ marginBottom: 3 }}
+      sx={{ marginBottom: 3, ...sx }}
       autoFocus={autoFocus}
       type={type}
       disabled={disabled}
@@ -59,6 +65,7 @@ const Input = ({ name, onChange, placeholder, type, value, disabled, fullWidth, 
       value={value}
       onChange={onChange}
       fullWidth={fullWidth}
+      multiline={multiline}
     />
   );
 };

@@ -28,36 +28,28 @@ const Azure = ({ src, password, creativity }) => {
 
   function getAzureSuggestion() {
     setLoading(true);
-    getAzureComputerVision(src.image).then((resp) => {
-      try {
-        const characteristics = resp.tags.map((tag) => tag.name);
-        characteristics.push(resp.description.captions[0].text);
-        setSuggestion(resp.description.captions[0].text);
-        setCharacteristics(characteristics);
-        makeChatGPTRequest(characteristics);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        // setLoading(false);
-      }
-    });
+    setChatGPT(null);
+    getAzureComputerVision(src.image)
+      .then((resp) => {
+        try {
+          const characteristics = resp.tags.map((tag) => tag.name);
+          characteristics.push(resp.description.captions[0].text);
+          setSuggestion(resp.description.captions[0].text);
+          setCharacteristics(characteristics);
+          makeChatGPTRequest(characteristics);
+        } catch (error) {
+          setLoading(false);
+          alert(error.message);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert(error.message);
+      });
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function makeChatGPTRequest(characteristics) {
-    if (creativity == 0 && lightGPTSuggestion) {
-      setChatGPT(lightGPTSuggestion);
-      return;
-    }
-    if (creativity == 0.5 && mediumGPTSuggestion) {
-      setChatGPT(mediumGPTSuggestion);
-      return;
-    }
-    if (creativity == 1 && highGPTSuggestion) {
-      setChatGPT(highGPTSuggestion);
-      return;
-    }
-
     setChatGPT(null);
     setLoading(true);
     const response = await getOpenAPI(characteristics, password, creativity);
@@ -70,7 +62,7 @@ const Azure = ({ src, password, creativity }) => {
     if (creativity == 1) {
       setHighGPTSuggestion(response);
     }
-    setChatGPT(response);
+    setChatGPT(response.trim());
     setLoading(false);
   }
 
@@ -98,7 +90,7 @@ const Azure = ({ src, password, creativity }) => {
     <Card
       onClick={getAzureSuggestion}
       alt=""
-      header="Azure"
+      header="Azure Computer Vision"
       suggestion={suggestion}
       chatGTP={chatGTP}
       loading={loading}
