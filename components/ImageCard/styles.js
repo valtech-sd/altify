@@ -52,13 +52,13 @@ export const SelectStyles = {
   height: '60px',
   color: 'black',
   '.MuiOutlinedInput-notchedOutline': {
-    borderColor: 'rgb(118, 248, 176)',
+    borderColor: '#000',
   },
   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-    borderColor: 'rgb(118, 248, 176)',
+    borderColor: '#000',
   },
   '&:hover .MuiOutlinedInput-notchedOutline': {
-    borderColor: 'rgb(118, 248, 176)',
+    borderColor: '#000',
   },
   '.MuiSvgIcon-root ': {
     fill: 'black !important',
