@@ -14,7 +14,7 @@ import Input from '../Input';
 const green = 'rgb(118, 248, 176)';
 
 const Butt = styled(Button)({
-  color: green,
+  color: '#000',
   fontWeight: 'bold',
   letterSpacing: '1px',
 });
