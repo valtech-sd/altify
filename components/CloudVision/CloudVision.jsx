@@ -48,6 +48,19 @@ const CloudVision = ({ src, password, creativity }) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function makeChatGPTRequest(googleCloudResponse) {
+    if (creativity == 0 && lightGPTSuggestion) {
+      setChatGPT(lightGPTSuggestion);
+      return;
+    }
+    if (creativity == 0.5 && mediumGPTSuggestion) {
+      setChatGPT(mediumGPTSuggestion);
+      return;
+    }
+    if (creativity == 1 && highGPTSuggestion) {
+      setChatGPT(highGPTSuggestion);
+      return;
+    }
+
     setChatGPT(null);
     setLoading(true);
     const response = await getOpenAPI(googleCloudResponse, password, creativity);
