@@ -51,15 +51,18 @@ const Azure = ({ src, password, creativity }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function makeChatGPTRequest(characteristics) {
     if (creativity == 0 && lightGPTSuggestion) {
-      setChatGPT(lightGPTSuggestion);
+      setChatGPT(lightGPTSuggestion.trim());
+      setLoading(false);
       return;
     }
     if (creativity == 0.5 && mediumGPTSuggestion) {
-      setChatGPT(mediumGPTSuggestion);
+      setChatGPT(mediumGPTSuggestion.trim());
+      setLoading(false);
       return;
     }
     if (creativity == 1 && highGPTSuggestion) {
-      setChatGPT(highGPTSuggestion);
+      setLoading(false);
+      setChatGPT(highGPTSuggestion.trim());
       return;
     }
 
