@@ -1,8 +1,9 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import styles from './index.module.css';
 import { serverUrl } from '../constants/constants';
+import { StateContext } from '../context/state';
 import { updateQueryStringParameter } from '../utils';
 import { Input, ImageCard, Alert, Button, BasicAlertDialog } from '../components';
 
@@ -13,6 +14,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [correctPassword, setCorrectPassword] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const { state, dispatch } = useContext(StateContext);
 
   const toggleShowAlert = () => setShowAlert((value) => !value);
 
@@ -22,6 +24,9 @@ export default function Home() {
 
   async function onSubmit(event) {
     event.preventDefault();
+    dispatch({
+      type: 'resetCounter',
+    });
     if (result?.length > 0) {
       clearState();
     }
@@ -109,7 +114,11 @@ export default function Home() {
 
       <main className={styles.main}>
         {showAlert && (
-          <BasicAlertDialog toggleShowAlert={toggleShowAlert} title="Export Completed" buttonText="Close" />
+          <BasicAlertDialog
+            toggleShowAlert={toggleShowAlert}
+            title={`Exported (${state.counter}) Tags to CMS`}
+            buttonText="Close"
+          />
         )}
         <form onSubmit={onSubmit}>
           <img src="./valtechLogo-black.png" className={styles.icon} />
@@ -136,7 +145,13 @@ export default function Home() {
           {result?.length && (
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <p style={{ marginBottom: -20 }}>{result.length} Images Detected</p>
-              <Button secondary exact="true" onClick={toggleShowAlert} header="Export to CMS" sx={{ width: '180px' }} />
+              <Button
+                secondary
+                exact="true"
+                onClick={toggleShowAlert}
+                header={state.counter === 0 ? `Export to CMS` : `Export (${state.counter}) to CMS`}
+                sx={{ width: '180px' }}
+              />
             </div>
           )}
 

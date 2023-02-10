@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { func, string, bool } from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
+import Checkbox from '@mui/material/Checkbox';
 
 import { Input, Button, BasicAlertDialog } from '../';
+import { StateContext } from '../../context/state';
 import { Container, TagLabel, EditIconContainer, ApproveEditContainer, EditedIndicator } from './styles';
 
 const propTypes = {
@@ -28,6 +30,7 @@ const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported }) =>
   const [chatGTPEdits, setChatGTPEdits] = useState(null);
   const [chatGTPEditsSaved, setChatGTPEditsSaved] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  const { state, dispatch } = useContext(StateContext);
 
   const toggleIsEditingTag = () => setIsEditingTag((value) => !value);
   const handleInputChange = (e) => setChatGTPEdits(e.target.value);
@@ -67,7 +70,26 @@ const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported }) =>
             </div>
             {suggestion && (
               <>
-                <TagLabel>GPT Tag</TagLabel>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 0 }}>
+                  <TagLabel>GPT Tag</TagLabel>
+                  {!loading && (
+                    <Checkbox
+                      sx={{ marginTop: 0, position: 'relative', bottom: '9px' }}
+                      onChange={(e) => {
+                        const isChecked = e.target.checked;
+                        if (isChecked) {
+                          dispatch({
+                            type: 'increaseCounter',
+                          });
+                        } else {
+                          dispatch({
+                            type: 'decreaseCounter',
+                          });
+                        }
+                      }}
+                    />
+                  )}
+                </div>
                 {loading ? (
                   <div style={{ height: 36 }}>{<div className="loading-bar"></div>}</div>
                 ) : (
