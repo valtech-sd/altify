@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import styles from './index.module.css';
 import { serverUrl } from '../constants/constants';
+import { updateQueryStringParameter } from '../utils';
 import { Input, ImageCard, Alert, Button, BasicAlertDialog } from '../components';
 
 export default function Home() {
@@ -59,7 +60,22 @@ export default function Home() {
       alert('No image tags found');
       return;
     }
-    setResult(data.result);
+
+    // some websites, like https://www.valtech.com/work/loreal-kerastase/ have images with query params that have tiny widths... this
+    // causes altify to render the image poorly. This method makes adjustments to the image width query param if present to proper width.
+    const modifiedResponse = data.result.map((img) => {
+      const params = new URL(img.image).searchParams;
+      const width = params.get('width');
+
+      if (width && width < 200) {
+        const updatedImageUrl = updateQueryStringParameter(img.image, 'width', '400px');
+        return { ...img, image: updatedImageUrl };
+      } else {
+        return img;
+      }
+    });
+
+    setResult(modifiedResponse);
     setLoading(false);
   }
 

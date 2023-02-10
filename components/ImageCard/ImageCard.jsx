@@ -32,7 +32,7 @@ const ImageCard = ({ image, password, index, total }) => {
       <Container elevation={8}>
         <ImageContainer>
           <div style={{ margin: '0 0 20px 0', fontWeight: 'bold' }}>Image {index + 1}</div>
-          <img src={image.image} alt="You ought to add an alt tag !" style={{ width: '100%', borderRadius: '6px' }} />
+          <img src={image.image} alt="Broken image on source site." style={{ width: '100%', borderRadius: '6px' }} />
           <p style={{ visibility: 'hidden', height: '20px', margin: '20px 0 0 0' }}>3</p>
         </ImageContainer>
         <ResultsContainer elevation={8}>
