@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { shape, string } from 'prop-types';
 
-import { getAzureComputerVision, getOpenAPI } from '../../helpers';
+import { getOpenAPI, resolveAzurePromises } from '../../helpers';
 import Card from '../Card';
 
 const propTypes = {
@@ -26,26 +26,29 @@ const Azure = ({ src, password, creativity }) => {
   const [highGPTSuggestion, setHighGPTSuggestion] = useState(null);
   const [chatGTP, setChatGPT] = useState(null);
 
-  function getAzureSuggestion() {
+  async function getAzureSuggestion() {
     setLoading(true);
     setChatGPT(null);
-    getAzureComputerVision(src.image)
-      .then((resp) => {
-        try {
-          const characteristics = resp.tags.map((tag) => tag.name);
-          characteristics.push(resp.description.captions[0].text);
-          setSuggestion(resp.description.captions[0].text);
-          setCharacteristics(characteristics);
-          makeChatGPTRequest(characteristics);
-        } catch (error) {
-          setLoading(false);
-          alert(error.message);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        alert(error.message);
-      });
+    try {
+      const azureResults = await resolveAzurePromises(src.image);
+      const detections = [
+        ...azureResults.tags,
+        ...azureResults.description,
+        ...azureResults.readOCR,
+        ...azureResults.brands,
+      ].join(', ');
+      const prompt = `Tags detected: ${azureResults.tags.join(
+        ', '
+      )}, Description detected: ${azureResults.description.join(', ')}, Text detected: ${
+        azureResults.readOCR.length > 0 ? azureResults.readOCR.join(', ') : 'none'
+      }, Brands detected: ${azureResults.brands.length > 0 ? azureResults.brands.join(', ') : 'none'}`;
+      setSuggestion(detections);
+      setCharacteristics(prompt);
+      makeChatGPTRequest(prompt);
+    } catch (error) {
+      setLoading(false);
+      alert(error.message);
+    }
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,6 +71,7 @@ const Azure = ({ src, password, creativity }) => {
 
     setChatGPT(null);
     setLoading(true);
+    console.log('characteristics', characteristics);
     const response = await getOpenAPI(characteristics, password, creativity);
     if (creativity == 0) {
       setLightGPTSuggestion(response);
