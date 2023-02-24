@@ -16,7 +16,14 @@ const defaultProps = {
 
 const Input = ({ onClick, header, loading, disabled, secondary = false, sx }) => {
   return (
-    <Button loading={loading} variant="outlined" onClick={onClick} disabled={disabled} secondary={secondary} sx={sx}>
+    <Button
+      loading={loading}
+      variant="outlined"
+      onClick={onClick}
+      disabled={disabled}
+      secondary={secondary.toString()}
+      sx={sx}
+    >
       {header}
     </Button>
   );

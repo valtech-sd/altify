@@ -37,11 +37,9 @@ const Azure = ({ src, password, creativity }) => {
         ...azureResults.readOCR,
         ...azureResults.brands,
       ].join(', ');
-      const prompt = `Tags detected: ${azureResults.tags.join(
+      const prompt = `${azureResults.tags.join(', ')}, ${azureResults.description.join(
         ', '
-      )}, Description detected: ${azureResults.description.join(', ')}, Text detected: ${
-        azureResults.readOCR.length > 0 ? azureResults.readOCR.join(', ') : 'none'
-      }, Brands detected: ${azureResults.brands.length > 0 ? azureResults.brands.join(', ') : 'none'}`;
+      )}, ${azureResults.readOCR.join(', ')}, ${azureResults.brands.join(', ')}`;
       setSuggestion(detections);
       setCharacteristics(prompt);
       makeChatGPTRequest(prompt);
