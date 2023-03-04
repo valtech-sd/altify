@@ -98,12 +98,12 @@ export const getAzureImageAnalysisV4 = async (url) => {
     const results = await imageAnalysis.json();
 
     const readOCR = results.readResult.pages[0].lines.map((line) => {
-      return line.content;
+      return line.content.toLowerCase();
     });
     const tags = results.tagsResult.values
       .filter((value) => value.confidence > 0.5)
       .map((result) => {
-        return result.name;
+        return result.name.toLowerCase();
       });
 
     return { tags, readOCR };
