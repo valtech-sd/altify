@@ -71,9 +71,6 @@ const ImageCard = ({ image, password, index, total }) => {
           <Wrapper>
             <Azure src={image} password={password} creativity={creativity} />
           </Wrapper>
-          <Wrapper>
-            <CloudVision src={image} password={password} creativity={creativity} />
-          </Wrapper>
         </ResultsContainer>
       </Container>
     </div>

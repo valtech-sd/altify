@@ -32,7 +32,7 @@ const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported }) =>
   const [detectionEditsSaved, setDetectionEditsSaved] = useState(null);
   const [detectionEdits, setDetectionEdits] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
-  const { state, dispatch } = useContext(StateContext);
+  const { dispatch } = useContext(StateContext);
 
   const toggleIsEditingTag = () => setIsEditingTag((value) => !value);
   const handleInputChange = (e) => setChatGTPEdits(e.target.value);
@@ -52,7 +52,7 @@ const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported }) =>
                 setChatGTPEdits(null);
                 onClick(e);
               }}
-              header={`Generate Tags`}
+              header={`Analyze Image`}
               loading={loading}
               sx={{ marginBottom: '20px', width: '180px' }}
             />

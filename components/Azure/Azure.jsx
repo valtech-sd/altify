@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { shape, string } from 'prop-types';
 
-import { getOpenAPI, resolveAzurePromises } from '../../helpers';
+import { getOpenAPI, resolveAzurePromises, getGoogleCloudVision } from '../../helpers';
 import Card from '../Card';
 
 const propTypes = {
@@ -30,19 +30,25 @@ const Azure = ({ src, password, creativity }) => {
     setLoading(true);
     setChatGPT(null);
     try {
-      const azureResults = await resolveAzurePromises(src.image);
+      const [azureResults, gcResults] = await Promise.all([
+        resolveAzurePromises(src.image),
+        getGoogleCloudVision(src.image, password),
+      ]);
       const detections = [
         ...azureResults.tags,
         ...azureResults.description,
         ...azureResults.readOCR,
         ...azureResults.brands,
-      ].join(', ');
-      const prompt = `${azureResults.tags.join(', ')}, ${azureResults.description.join(
-        ', '
-      )}, ${azureResults.readOCR.join(', ')}, ${azureResults.brands.join(', ')}`;
-      setSuggestion(detections);
-      setCharacteristics(prompt);
-      makeChatGPTRequest(prompt);
+        ...gcResults,
+      ];
+      let prompt = detections.join(', ');
+      if (detections.length === 0) {
+        prompt = 'No tags were detected';
+      } else {
+        makeChatGPTRequest(prompt);
+      }
+      setSuggestion(prompt);
+      setCharacteristics(detections.join(', '));
     } catch (error) {
       setLoading(false);
       alert(error.message);
@@ -108,7 +114,7 @@ const Azure = ({ src, password, creativity }) => {
     <Card
       onClick={getAzureSuggestion}
       alt=""
-      header="Azure Computer Vision"
+      header="Image Analysis"
       suggestion={suggestion}
       chatGTP={chatGTP}
       loading={loading}
