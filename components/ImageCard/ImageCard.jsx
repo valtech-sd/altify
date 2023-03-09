@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { number, object, string } from 'prop-types';
 
-import { Azure, CloudVision } from '../../components';
+import { Azure } from '../../components';
 import { Container, ImageContainer, ResultsContainer, Wrapper, Label, SelectStyles } from './styles';
 import { FormControl, MenuItem, Select } from '@mui/material';
 

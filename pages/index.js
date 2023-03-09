@@ -103,8 +103,6 @@ export default function Home() {
     );
   }
 
-  console.log('result', result);
-
   return (
     <div>
       <Head>
@@ -121,7 +119,7 @@ export default function Home() {
           />
         )}
         <form onSubmit={onSubmit}>
-          <img src="./valtechLogo-black.png" className={styles.icon} />
+          <img src="./valtechLogo-black.png" className={styles.icon} alt="valtech logo" />
           <Input
             autoFocus
             type="text"

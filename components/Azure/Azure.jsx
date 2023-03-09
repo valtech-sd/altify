@@ -75,7 +75,7 @@ const Azure = ({ src, password, creativity }) => {
 
     setChatGPT(null);
     setLoading(true);
-    console.log('characteristics', characteristics);
+
     const response = await getOpenAPI(characteristics, password, creativity);
     if (creativity == 0) {
       setLightGPTSuggestion(response);
@@ -117,6 +117,7 @@ const Azure = ({ src, password, creativity }) => {
       header="Image Analysis"
       suggestion={suggestion}
       chatGTP={chatGTP}
+      creativity={creativity}
       loading={loading}
       unsupported={isUnSupported(src.image)}
     />

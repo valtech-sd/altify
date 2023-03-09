@@ -1,13 +1,11 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { func, string, bool } from 'prop-types';
-import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from '@mui/icons-material/Close';
-import CheckIcon from '@mui/icons-material/Check';
 import Checkbox from '@mui/material/Checkbox';
 
 import { Input, Button, BasicAlertDialog } from '../';
 import { StateContext } from '../../context/state';
-import { Container, TagLabel, EditIconContainer, ApproveEditContainer, EditedIndicator } from './styles';
+import { Container, TagLabel } from './styles';
+import EditWidget from '../EditWidget/EditWidget';
 
 const propTypes = {
   chatGTP: string,
@@ -16,6 +14,7 @@ const propTypes = {
   onClick: func.isRequired,
   suggestion: string,
   unsupported: bool,
+  creativity: string,
 };
 
 const defaultProps = {
@@ -25,18 +24,21 @@ const defaultProps = {
   unsupported: false,
 };
 
-const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported }) => {
+const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported, creativity }) => {
   const [isEditingTag, setIsEditingTag] = useState(false);
   const [chatGTPEdits, setChatGTPEdits] = useState(null);
   const [chatGTPEditsSaved, setChatGTPEditsSaved] = useState(null);
-  const [detectionEditsSaved, setDetectionEditsSaved] = useState(null);
-  const [detectionEdits, setDetectionEdits] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const { dispatch } = useContext(StateContext);
 
   const toggleIsEditingTag = () => setIsEditingTag((value) => !value);
   const handleInputChange = (e) => setChatGTPEdits(e.target.value);
   const toggleShowAlert = () => setShowAlert((value) => !value);
+
+  useEffect(() => {
+    setChatGTPEdits(null);
+    setChatGTPEditsSaved(null);
+  }, [creativity]);
 
   return (
     <>
@@ -80,49 +82,7 @@ const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported }) =>
                       padding: '0',
                     }}
                   >
-                    {isEditingTag ? (
-                      <Input
-                        name="chatGPT tags"
-                        placeholder="Enter a description"
-                        multiline
-                        value={detectionEdits || detectionEditsSaved || suggestion}
-                        onChange={handleInputChange}
-                        fullWidth
-                        sx={{ background: 'white' }}
-                      />
-                    ) : (
-                      <p style={{ padding: 0, margin: 0 }}>{detectionEditsSaved ?? suggestion}</p>
-                    )}
-
-                    <EditIconContainer>
-                      {isEditingTag ? (
-                        <ApproveEditContainer>
-                          <CheckIcon
-                            sx={{ margin: '2px 8px' }}
-                            onClick={(e) => {
-                              toggleIsEditingTag(e);
-                              setDetectionEditsSaved(detectionEdits);
-                            }}
-                          />
-                          <CloseIcon
-                            sx={{ margin: '2px 8px' }}
-                            onClick={(e) => {
-                              toggleIsEditingTag(e);
-                              setDetectionEdits(null);
-                            }}
-                          />
-                        </ApproveEditContainer>
-                      ) : (
-                        <div
-                          onClick={(e) => {
-                            toggleIsEditingTag(e);
-                          }}
-                        >
-                          <EditIcon sx={{ margin: '2px 8px' }} />
-                          {detectionEditsSaved && <EditedIndicator>Edited</EditedIndicator>}
-                        </div>
-                      )}
-                    </EditIconContainer>
+                    <p style={{ padding: 0, margin: 0 }}>{suggestion}</p>
                   </div>
                 </div>
               )}
@@ -176,35 +136,14 @@ const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported }) =>
                       <p style={{ padding: 0, margin: 0 }}>{chatGTPEditsSaved ?? chatGTP}</p>
                     )}
 
-                    <EditIconContainer>
-                      {isEditingTag ? (
-                        <ApproveEditContainer>
-                          <CheckIcon
-                            sx={{ margin: '2px 8px' }}
-                            onClick={(e) => {
-                              toggleIsEditingTag(e);
-                              setChatGTPEditsSaved(chatGTPEdits);
-                            }}
-                          />
-                          <CloseIcon
-                            sx={{ margin: '2px 8px' }}
-                            onClick={(e) => {
-                              toggleIsEditingTag(e);
-                              setChatGTPEdits(null);
-                            }}
-                          />
-                        </ApproveEditContainer>
-                      ) : (
-                        <div
-                          onClick={(e) => {
-                            toggleIsEditingTag(e);
-                          }}
-                        >
-                          <EditIcon sx={{ margin: '2px 8px' }} />
-                          {chatGTPEditsSaved && <EditedIndicator>Edited</EditedIndicator>}
-                        </div>
-                      )}
-                    </EditIconContainer>
+                    <EditWidget
+                      isEditingTag={isEditingTag}
+                      toggleIsEditingTag={toggleIsEditingTag}
+                      chatGTPEdits={chatGTPEdits}
+                      chatGTPEditsSaved={chatGTPEditsSaved}
+                      setChatGTPEdits={setChatGTPEdits}
+                      setChatGTPEditsSaved={setChatGTPEditsSaved}
+                    />
                   </div>
                 )}
               </>
