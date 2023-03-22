@@ -155,10 +155,13 @@ export default function Home() {
 
           {Array.isArray(result) &&
             result.map((image, idx) => {
+              const rateLimitSecondsDelay = Math.floor(idx / 7) * 1000;
+
               return (
                 <ImageCard
                   key={`altify-image-${idx}`}
                   index={idx}
+                  rateLimitSecondsDelay={rateLimitSecondsDelay}
                   image={image}
                   password={password}
                   total={result?.length}

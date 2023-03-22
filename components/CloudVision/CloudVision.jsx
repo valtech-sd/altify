@@ -28,22 +28,22 @@ const CloudVision = ({ src, password, creativity }) => {
   const [highGPTSuggestion, setHighGPTSuggestion] = useState(null);
   const [chatGTP, setChatGPT] = useState(null);
 
-  function getCloudSuggestion() {
+  async function getCloudSuggestion() {
     setLoading(true);
-    getGoogleCloudVision(src.image, password).then((resp) => {
+    try {
+      const resp = await getGoogleCloudVision(src.image, password);
       if (resp.length > 0) {
-        try {
-          setSuggestion(resp.join(', '));
-          setCloudVisionResponse(resp);
-          makeChatGPTRequest(resp);
-        } catch (error) {
-          console.log(error);
-        }
+        setSuggestion(resp.join(', '));
+        setCloudVisionResponse(resp);
+        makeChatGPTRequest(resp);
       } else {
+        console.log(error);
         setLoading(false);
-        alert('No tags were detected.');
       }
-    });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -4,8 +4,9 @@ import Checkbox from '@mui/material/Checkbox';
 
 import { Input, Button, BasicAlertDialog } from '../';
 import { StateContext } from '../../context/state';
-import { Container, TagLabel } from './styles';
+import { Container, TagLabel, Label, SelectStyles } from './styles';
 import EditWidget from '../EditWidget/EditWidget';
+import { FormControl, MenuItem, Select } from '@mui/material';
 
 const propTypes = {
   chatGTP: string,
@@ -15,6 +16,7 @@ const propTypes = {
   suggestion: string,
   unsupported: bool,
   creativity: string,
+  updateDetections: func,
 };
 
 const defaultProps = {
@@ -24,16 +26,43 @@ const defaultProps = {
   unsupported: false,
 };
 
-const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported, creativity }) => {
+const options = [
+  { value: '0', label: 'Light' },
+  { value: '0.5', label: 'Medium' },
+  { value: '1', label: 'High' },
+];
+
+const Card = ({
+  onClick,
+  suggestion,
+  updateSuggestions,
+  chatGTP,
+  loading,
+  unsupported,
+  creativity,
+  handleChange,
+  updateDetections,
+}) => {
   const [isEditingTag, setIsEditingTag] = useState(false);
   const [chatGTPEdits, setChatGTPEdits] = useState(null);
   const [chatGTPEditsSaved, setChatGTPEditsSaved] = useState(null);
+
+  const [isEditingDetection, setIsEditingDetection] = useState(false);
+  const [detectionEdits, setDetectionEdits] = useState(null);
+  const [detectionEditsSaved, setDetectionEditsSaved] = useState(null);
+
   const [showAlert, setShowAlert] = useState(false);
-  const { dispatch } = useContext(StateContext);
 
   const toggleIsEditingTag = () => setIsEditingTag((value) => !value);
-  const handleInputChange = (e) => setChatGTPEdits(e.target.value);
+  const toggleIsEditingDetection = () => setIsEditingDetection((value) => !value);
+  const handleGPTInputChange = (e) => setChatGTPEdits(e.target.value);
+  const handleDetectionInputChange = (e) => setDetectionEdits(e.target.value);
   const toggleShowAlert = () => setShowAlert((value) => !value);
+
+  const onUpdateDetections = () => {
+    setDetectionEditsSaved(detectionEdits);
+    updateDetections(detectionEdits);
+  };
 
   useEffect(() => {
     setChatGTPEdits(null);
@@ -45,108 +74,152 @@ const Card = ({ onClick, header, suggestion, chatGTP, loading, unsupported, crea
       {showAlert && <BasicAlertDialog toggleShowAlert={toggleShowAlert} title="Saved to CMS" buttonText="Close" />}
       <Container>
         <div style={{ flex: 1, display: 'flex' }}>
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <TagLabel>{header}</TagLabel>
-            <Button
-              disabled={unsupported}
-              onClick={(e) => {
-                setChatGTPEditsSaved(null);
-                setChatGTPEdits(null);
-                onClick(e);
-              }}
-              header={`Analyze Image`}
-              loading={loading}
-              sx={{ marginBottom: '20px', width: '180px' }}
-            />
-            {chatGTP && !loading && (
-              <Button secondary exact="true" onClick={toggleShowAlert} header="Save to CMS" sx={{ width: '180px' }} />
-            )}
-            {unsupported && (
-              <div style={{ color: 'red', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                <p style={{ fontSize: 12, margin: 0 }}>Unsupported format: .GIF</p>
+          <div style={{ flex: 2, flexDirection: 'column', display: 'flex' }}>
+            {loading && !suggestion ? (
+              <div style={{ justifyContent: 'center', display: 'flex', padding: '40px 0' }}>
+                <div className="loading-bar"></div>
               </div>
-            )}
-          </div>
-          <div style={{ flex: 2, flexDirection: 'column', display: 'flex', paddingLeft: '40px' }}>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <TagLabel>Image Detections</TagLabel>
-              {suggestion && (
-                <div style={{ margin: '0 0 20px 0' }}>
-                  <div
-                    style={{
-                      flex: 2,
-                      alignItems: 'center',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start',
-                      padding: '0',
-                    }}
-                  >
-                    <p style={{ padding: 0, margin: 0 }}>{suggestion}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-            {suggestion && (
-              <>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 0 }}>
-                  <TagLabel>GPT Tag</TagLabel>
-                  {!loading && (
-                    <Checkbox
-                      sx={{ marginTop: 0, position: 'relative', bottom: '9px' }}
-                      onChange={(e) => {
-                        const isChecked = e.target.checked;
-                        if (isChecked) {
-                          dispatch({
-                            type: 'increaseCounter',
-                          });
-                        } else {
-                          dispatch({
-                            type: 'decreaseCounter',
-                          });
-                        }
+            ) : (
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '20px' }}>
+                <TagLabel>Image Detections</TagLabel>
+                {suggestion && (
+                  <div style={{ margin: '0 0 20px 0' }}>
+                    <div
+                      style={{
+                        flex: 2,
+                        alignItems: 'center',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                        padding: '0',
                       }}
-                    />
-                  )}
-                </div>
-                {loading ? (
-                  <div style={{ height: 36 }}>{<div className="loading-bar"></div>}</div>
-                ) : (
-                  <div
-                    style={{
-                      flex: 2,
-                      alignItems: 'center',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start',
-                      padding: '0',
-                    }}
-                  >
-                    {isEditingTag ? (
-                      <Input
-                        name="chatGPT tags"
-                        placeholder="Enter a description"
-                        multiline
-                        value={chatGTPEdits || chatGTPEditsSaved || chatGTP}
-                        onChange={handleInputChange}
-                        fullWidth
-                        sx={{ background: 'white' }}
+                    >
+                      {isEditingDetection ? (
+                        <Input
+                          name="Image tags"
+                          placeholder="Enter a description"
+                          multiline
+                          value={detectionEdits || detectionEditsSaved || suggestion}
+                          onChange={handleDetectionInputChange}
+                          fullWidth
+                          sx={{ background: 'white' }}
+                        />
+                      ) : (
+                        <p style={{ padding: 0, margin: 0 }}>{detectionEditsSaved || suggestion}</p>
+                      )}
+                      <EditWidget
+                        isEditing={isEditingDetection}
+                        toggleIsEditing={toggleIsEditingDetection}
+                        edits={detectionEdits}
+                        editsSaved={detectionEditsSaved}
+                        setEdits={setDetectionEdits}
+                        setEditsSaved={onUpdateDetections}
                       />
-                    ) : (
-                      <p style={{ padding: 0, margin: 0 }}>{chatGTPEditsSaved ?? chatGTP}</p>
-                    )}
-
-                    <EditWidget
-                      isEditingTag={isEditingTag}
-                      toggleIsEditingTag={toggleIsEditingTag}
-                      chatGTPEdits={chatGTPEdits}
-                      chatGTPEditsSaved={chatGTPEditsSaved}
-                      setChatGTPEdits={setChatGTPEdits}
-                      setChatGTPEditsSaved={setChatGTPEditsSaved}
-                    />
+                    </div>
                   </div>
                 )}
-              </>
+              </div>
+            )}
+
+            {suggestion && (
+              <div
+                style={{
+                  borderTop: '1px solid #909EB0',
+                  padding: '20px',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    paddingTop: 0,
+                  }}
+                >
+                  {' '}
+                  {suggestion && (
+                    <>
+                      <div style={{ display: 'flex' }}>
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'flex-start',
+                            width: '100%',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <Label>GPT Creativity Level</Label>
+                          <FormControl sx={{ width: 120 }}>
+                            <Select
+                              labelId="creativity-select-label"
+                              id="creativity-select"
+                              value={creativity}
+                              onChange={handleChange}
+                              sx={SelectStyles}
+                            >
+                              {options.map((option) => (
+                                <MenuItem key={option.label} value={option.value}>
+                                  {option.label}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+
+                          <Button
+                            disabled={unsupported}
+                            onClick={(e) => {
+                              setChatGTPEditsSaved(null);
+                              setChatGTPEdits(null);
+                              onClick(e);
+                            }}
+                            header={`Generate Alt Tag`}
+                            loading={loading}
+                            sx={{ marginBottom: '20px', width: '180px' }}
+                          />
+                        </div>
+                      </div>
+                      {loading ? (
+                        <div style={{ justifyContent: 'center', display: 'flex', padding: '20px 0' }}>
+                          {<div className="loading-bar"></div>}
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            flex: 2,
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            padding: '20px 0',
+                          }}
+                        >
+                          {isEditingTag ? (
+                            <Input
+                              name="chatGPT tags"
+                              placeholder="Enter a description"
+                              multiline
+                              value={chatGTPEdits || chatGTPEditsSaved || chatGTP}
+                              onChange={handleGPTInputChange}
+                              fullWidth
+                              sx={{ background: 'white' }}
+                            />
+                          ) : (
+                            <p style={{ padding: 0, margin: 0 }}>{chatGTPEditsSaved ?? chatGTP}</p>
+                          )}
+                          {chatGTP && (
+                            <EditWidget
+                              isEditing={isEditingTag}
+                              toggleIsEditing={toggleIsEditingTag}
+                              edits={chatGTPEdits}
+                              editsSaved={chatGTPEditsSaved}
+                              setEdits={setChatGTPEdits}
+                              setEditsSaved={setChatGTPEditsSaved}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
             )}
           </div>
         </div>

@@ -17,7 +17,7 @@ const defaultProps = {
   },
 };
 
-const Azure = ({ src, password, creativity }) => {
+const Azure = ({ index, src, password, creativity, rateLimitSecondsDelay, handleChange }) => {
   const [loading, setLoading] = useState(false);
   const [characteristics, setCharacteristics] = useState(null);
   const [suggestion, setSuggestion] = useState(null);
@@ -34,60 +34,58 @@ const Azure = ({ src, password, creativity }) => {
         resolveAzurePromises(src.image),
         getGoogleCloudVision(src.image, password),
       ]);
+
       const detections = [
-        ...azureResults.tags,
-        ...azureResults.description,
-        ...azureResults.readOCR,
-        ...azureResults.brands,
-        ...gcResults,
+        ...(azureResults.tags || []),
+        ...(azureResults.description || []),
+        ...(azureResults.readOCR || []),
+        ...(azureResults.brands || []),
+        ...(gcResults || []),
       ];
       let prompt = detections.join(', ');
       if (detections.length === 0) {
         prompt = 'No tags were detected';
-      } else {
-        makeChatGPTRequest(prompt);
       }
       setSuggestion(prompt);
       setCharacteristics(detections.join(', '));
+      setLoading(false);
     } catch (error) {
       setLoading(false);
-      alert(error.message);
     }
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function makeChatGPTRequest(characteristics) {
-    if (creativity == 0 && lightGPTSuggestion) {
-      setChatGPT(lightGPTSuggestion.trim());
+  async function makeChatGPTRequest() {
+    const suggestionMap = {
+      0: [lightGPTSuggestion, setLightGPTSuggestion],
+      0.5: [mediumGPTSuggestion, setMediumGPTSuggestion],
+      1: [highGPTSuggestion, setHighGPTSuggestion],
+    };
+
+    const [suggestion, setSuggestion] = suggestionMap[creativity] || [];
+
+    if (suggestion && suggestion.trim()) {
+      setChatGPT(suggestion.trim());
       setLoading(false);
-      return;
-    }
-    if (creativity == 0.5 && mediumGPTSuggestion) {
-      setChatGPT(mediumGPTSuggestion.trim());
-      setLoading(false);
-      return;
-    }
-    if (creativity == 1 && highGPTSuggestion) {
-      setLoading(false);
-      setChatGPT(highGPTSuggestion.trim());
       return;
     }
 
     setChatGPT(null);
     setLoading(true);
 
-    const response = await getOpenAPI(characteristics, password, creativity);
-    if (creativity == 0) {
-      setLightGPTSuggestion(response);
+    try {
+      const response = await getOpenAPI(characteristics, password, creativity);
+      if (!response) throw new Error('No response from ChatGPT');
+
+      setSuggestion(response);
+      setChatGPT(response.trim());
+      setLoading(false);
+    } catch (error) {
+      const message = error.message || 'No response from ChatGPT';
+      setSuggestion(message);
+      setChatGPT(message);
+      setLoading(false);
     }
-    if (creativity == 0.5) {
-      setMediumGPTSuggestion(response);
-    }
-    if (creativity == 1) {
-      setHighGPTSuggestion(response);
-    }
-    setChatGPT(response.trim());
-    setLoading(false);
   }
 
   function clear() {
@@ -96,9 +94,25 @@ const Azure = ({ src, password, creativity }) => {
     setChatGPT(null);
   }
 
+  function updateDetections(updatedDetections) {
+    setLoading(false);
+    setSuggestion(updatedDetections);
+    setCharacteristics(updatedDetections);
+    setChatGPT(null);
+    setLightGPTSuggestion(null);
+    setMediumGPTSuggestion(null);
+    setHighGPTSuggestion(null);
+  }
+
   function isUnSupported(image) {
     return image.endsWith('.gif');
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      getAzureSuggestion();
+    }, rateLimitSecondsDelay);
+  }, []);
 
   useEffect(() => {
     clear();
@@ -112,7 +126,8 @@ const Azure = ({ src, password, creativity }) => {
 
   return (
     <Card
-      onClick={getAzureSuggestion}
+      onClick={makeChatGPTRequest}
+      handleChange={handleChange}
       alt=""
       header="Image Analysis"
       suggestion={suggestion}
@@ -120,6 +135,7 @@ const Azure = ({ src, password, creativity }) => {
       creativity={creativity}
       loading={loading}
       unsupported={isUnSupported(src.image)}
+      updateDetections={updateDetections}
     />
   );
 };

@@ -2,25 +2,19 @@ import { useState } from 'react';
 import { number, object, string } from 'prop-types';
 
 import { Azure } from '../../components';
-import { Container, ImageContainer, ResultsContainer, Wrapper, Label, SelectStyles } from './styles';
-import { FormControl, MenuItem, Select } from '@mui/material';
+import { Container, ImageContainer, ResultsContainer, Wrapper } from './styles';
 
 const propTypes = {
   image: object.isRequired,
   password: string.isRequired,
   index: number.isRequired,
   total: number.isRequired,
+  rateLimitSecondsDelay: number.isRequired,
 };
 
 const defaultProps = {};
 
-const options = [
-  { value: '0', label: 'Light' },
-  { value: '0.5', label: 'Medium' },
-  { value: '1', label: 'High' },
-];
-
-const ImageCard = ({ image, password, index, total }) => {
+const ImageCard = ({ image, password, index, rateLimitSecondsDelay }) => {
   const [creativity, setCreativity] = useState(0);
 
   function handleChange(event) {
@@ -37,39 +31,20 @@ const ImageCard = ({ image, password, index, total }) => {
         </ImageContainer>
         <ResultsContainer elevation={8}>
           <Wrapper>
-            <div
-              style={{
-                display: 'flex',
-                flex: '1 1 0%',
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-                flexDirection: 'column',
-              }}
-            >
-              <Label>GPT Creativity Level</Label>
-              <FormControl sx={{ width: 120 }}>
-                <Select
-                  labelId="creativity-select-label"
-                  id="creativity-select"
-                  value={creativity}
-                  onChange={handleChange}
-                  sx={SelectStyles}
-                >
-                  {options.map((option) => (
-                    <MenuItem key={option.label} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-            <div style={{ display: 'flex', flex: '2 1 0%', flexDirection: 'column', paddingLeft: '40px' }}>
+            <div style={{ display: 'flex', flex: '2 1 0%', flexDirection: 'column', padding: '20px' }}>
               <div style={{ fontWeight: 'bold', minWidth: 200, padding: '0 0 20px 0', margin: 0 }}>Current Alt Tag</div>
               <div style={{ padding: 0 }}>{image.current}</div>
             </div>
           </Wrapper>
           <Wrapper>
-            <Azure src={image} password={password} creativity={creativity} />
+            <Azure
+              index={index}
+              src={image}
+              password={password}
+              creativity={creativity}
+              rateLimitSecondsDelay={rateLimitSecondsDelay}
+              handleChange={handleChange}
+            />
           </Wrapper>
         </ResultsContainer>
       </Container>
