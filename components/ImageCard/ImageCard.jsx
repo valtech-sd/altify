@@ -9,12 +9,11 @@ const propTypes = {
   password: string.isRequired,
   index: number.isRequired,
   total: number.isRequired,
-  rateLimitSecondsDelay: number.isRequired,
 };
 
 const defaultProps = {};
 
-const ImageCard = ({ image, password, index, rateLimitSecondsDelay }) => {
+const ImageCard = ({ image, password, index, gptModel }) => {
   const [creativity, setCreativity] = useState(0);
 
   function handleChange(event) {
@@ -42,8 +41,8 @@ const ImageCard = ({ image, password, index, rateLimitSecondsDelay }) => {
               src={image}
               password={password}
               creativity={creativity}
-              rateLimitSecondsDelay={rateLimitSecondsDelay}
               handleChange={handleChange}
+              gptModel={gptModel}
             />
           </Wrapper>
         </ResultsContainer>

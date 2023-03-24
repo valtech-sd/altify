@@ -1,9 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { func, string, bool } from 'prop-types';
-import Checkbox from '@mui/material/Checkbox';
 
 import { Input, Button, BasicAlertDialog } from '../';
-import { StateContext } from '../../context/state';
 import { Container, TagLabel, Label, SelectStyles } from './styles';
 import EditWidget from '../EditWidget/EditWidget';
 import { FormControl, MenuItem, Select } from '@mui/material';
@@ -35,13 +33,13 @@ const options = [
 const Card = ({
   onClick,
   suggestion,
-  updateSuggestions,
   chatGTP,
   loading,
   unsupported,
   creativity,
   handleChange,
   updateDetections,
+  clearGPT,
 }) => {
   const [isEditingTag, setIsEditingTag] = useState(false);
   const [chatGTPEdits, setChatGTPEdits] = useState(null);
@@ -99,7 +97,13 @@ const Card = ({
                           name="Image tags"
                           placeholder="Enter a description"
                           multiline
-                          value={detectionEdits || detectionEditsSaved || suggestion}
+                          value={
+                            detectionEdits !== null
+                              ? detectionEdits
+                              : detectionEditsSaved !== null
+                              ? detectionEditsSaved
+                              : suggestion
+                          }
                           onChange={handleDetectionInputChange}
                           fullWidth
                           sx={{ background: 'white' }}
@@ -194,9 +198,15 @@ const Card = ({
                           {isEditingTag ? (
                             <Input
                               name="chatGPT tags"
-                              placeholder="Enter a description"
+                              placeholder="Enter an alt tag"
                               multiline
-                              value={chatGTPEdits || chatGTPEditsSaved || chatGTP}
+                              value={
+                                chatGTPEdits !== null
+                                  ? chatGTPEdits
+                                  : chatGTPEditsSaved !== null
+                                  ? chatGTPEditsSaved
+                                  : chatGTP
+                              }
                               onChange={handleGPTInputChange}
                               fullWidth
                               sx={{ background: 'white' }}
@@ -212,6 +222,7 @@ const Card = ({
                               editsSaved={chatGTPEditsSaved}
                               setEdits={setChatGTPEdits}
                               setEditsSaved={setChatGTPEditsSaved}
+                              clearGPT={clearGPT}
                             />
                           )}
                         </div>

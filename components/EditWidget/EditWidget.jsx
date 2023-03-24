@@ -1,5 +1,6 @@
 import { func, string, bool } from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 
@@ -14,7 +15,7 @@ const propTypes = {
   edits: string,
 };
 
-const EditWidget = ({ isEditing, setEdits, editsSaved, toggleIsEditing, setEditsSaved, edits }) => {
+const EditWidget = ({ isEditing, setEdits, editsSaved, toggleIsEditing, setEditsSaved, edits, clearGPT }) => {
   return (
     <EditIconContainer>
       {isEditing ? (
@@ -42,6 +43,17 @@ const EditWidget = ({ isEditing, setEdits, editsSaved, toggleIsEditing, setEdits
         >
           <EditIcon sx={{ margin: '2px 8px' }} />
           {editsSaved && <EditedIndicator>Edited</EditedIndicator>}
+          {clearGPT && (
+            <RestartAltIcon
+              onClick={() => {
+                toggleIsEditing();
+                clearGPT();
+                setEdits(null);
+                setEditsSaved(null);
+              }}
+              sx={{ margin: '2px 8px' }}
+            />
+          )}
         </div>
       )}
     </EditIconContainer>

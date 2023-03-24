@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { useState, useContext } from 'react';
 
+import { SelectStyles } from '../components/Card/styles';
+import { FormControl, MenuItem, Select } from '@mui/material';
 import styles from './index.module.css';
 import { serverUrl } from '../constants/constants';
 import { StateContext } from '../context/state';
@@ -14,6 +16,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [correctPassword, setCorrectPassword] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [gptModel, setGPTModel] = useState('gpt-4');
   const { state, dispatch } = useContext(StateContext);
 
   const toggleShowAlert = () => setShowAlert((value) => !value);
@@ -92,6 +95,11 @@ export default function Home() {
     setImageInput(event.target.value);
   }
 
+  function handleChangeGPTModel(event) {
+    const { value } = event.target;
+    setGPTModel(value);
+  }
+
   if (!correctPassword) {
     return (
       <Alert
@@ -102,6 +110,8 @@ export default function Home() {
       />
     );
   }
+
+  const gptOptions = [{ model: 'gpt-4' }, { model: 'gpt-3.5-turbo' }];
 
   return (
     <div>
@@ -142,7 +152,26 @@ export default function Home() {
           <div style={{ margin: '0 auto', height: 36 }}>{loading && <div className="loading-bar"></div>}</div>
           {result?.length && (
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <p style={{ marginBottom: -20 }}>{result.length} Images Detected</p>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <p style={{}}>{result.length} Images Detected</p>
+                <FormControl sx={{ width: 160 }}>
+                  <Select
+                    labelId="gpt-model-select"
+                    id="model-select"
+                    value={gptModel}
+                    onChange={handleChangeGPTModel}
+                    sx={SelectStyles}
+                  >
+                    {gptOptions.map((option) => {
+                      return (
+                        <MenuItem key={option.model} value={option.model}>
+                          {option.model}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </div>
               <Button
                 secondary
                 exact="true"
@@ -155,16 +184,14 @@ export default function Home() {
 
           {Array.isArray(result) &&
             result.map((image, idx) => {
-              const rateLimitSecondsDelay = Math.floor(idx / 7) * 1000;
-
               return (
                 <ImageCard
                   key={`altify-image-${idx}`}
                   index={idx}
-                  rateLimitSecondsDelay={rateLimitSecondsDelay}
                   image={image}
                   password={password}
                   total={result?.length}
+                  gptModel={gptModel}
                 />
               );
             })}

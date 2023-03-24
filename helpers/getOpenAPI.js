@@ -1,6 +1,6 @@
 import { serverUrl } from '../constants/constants';
 
-export default async function getOpenAPI(tags, password, creativityValue) {
+export default async function getOpenAPI(tags, password, creativityValue, gptModel) {
   const creativity = Number(creativityValue);
   try {
     const response = await fetch(`${serverUrl}/openAPI`, {
@@ -9,7 +9,7 @@ export default async function getOpenAPI(tags, password, creativityValue) {
         'Content-Type': 'application/json',
         authentication: password,
       },
-      body: JSON.stringify({ tags, creativity }),
+      body: JSON.stringify({ tags, creativity, gptModel }),
     });
     const json = await response.json();
     return json.result;

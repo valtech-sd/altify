@@ -19,7 +19,7 @@ const defaultProps = {
   password: null,
 };
 
-const CloudVision = ({ src, password, creativity }) => {
+const CloudVision = ({ src, password, creativity, gptModel }) => {
   const [loading, setLoading] = useState(false);
   const [cloudVisionResponse, setCloudVisionResponse] = useState(null);
   const [suggestion, setSuggestion] = useState(null);
@@ -66,7 +66,7 @@ const CloudVision = ({ src, password, creativity }) => {
 
     setChatGPT(null);
     setLoading(true);
-    const response = await getOpenAPI(googleCloudResponse, password, creativity);
+    const response = await getOpenAPI(googleCloudResponse, password, creativity, gptModel);
     if (creativity == 0) {
       setLightGPTSuggestion(response);
     }

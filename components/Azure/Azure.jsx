@@ -17,7 +17,7 @@ const defaultProps = {
   },
 };
 
-const Azure = ({ index, src, password, creativity, rateLimitSecondsDelay, handleChange }) => {
+const Azure = ({ index, src, password, creativity, handleChange, gptModel }) => {
   const [loading, setLoading] = useState(false);
   const [characteristics, setCharacteristics] = useState(null);
   const [suggestion, setSuggestion] = useState(null);
@@ -74,14 +74,14 @@ const Azure = ({ index, src, password, creativity, rateLimitSecondsDelay, handle
     setLoading(true);
 
     try {
-      const response = await getOpenAPI(characteristics, password, creativity);
-      if (!response) throw new Error('No response from ChatGPT');
+      const response = await getOpenAPI(characteristics, password, creativity, gptModel);
+      if (!response) throw new Error('No response from GPT');
 
       setSuggestion(response);
       setChatGPT(response.trim());
       setLoading(false);
     } catch (error) {
-      const message = error.message || 'No response from ChatGPT';
+      const message = error.message || 'No response from GPT';
       setSuggestion(message);
       setChatGPT(message);
       setLoading(false);
@@ -92,6 +92,14 @@ const Azure = ({ index, src, password, creativity, rateLimitSecondsDelay, handle
     setLoading(false);
     setSuggestion(null);
     setChatGPT(null);
+  }
+
+  function clearGPT() {
+    setLoading(false);
+    setChatGPT(null);
+    setLightGPTSuggestion(null);
+    setMediumGPTSuggestion(null);
+    setHighGPTSuggestion(null);
   }
 
   function updateDetections(updatedDetections) {
@@ -109,6 +117,7 @@ const Azure = ({ index, src, password, creativity, rateLimitSecondsDelay, handle
   }
 
   useEffect(() => {
+    const rateLimitSecondsDelay = Math.floor(index / 7) * 1000;
     setTimeout(() => {
       getAzureSuggestion();
     }, rateLimitSecondsDelay);
@@ -136,6 +145,7 @@ const Azure = ({ index, src, password, creativity, rateLimitSecondsDelay, handle
       loading={loading}
       unsupported={isUnSupported(src.image)}
       updateDetections={updateDetections}
+      clearGPT={clearGPT}
     />
   );
 };
