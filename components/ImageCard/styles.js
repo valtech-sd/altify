@@ -31,36 +31,8 @@ export const Wrapper = MUIStyled('div')({
   display: 'flex',
   flex: 1,
   alignItems: 'flex-start',
-  padding: '20px',
 
   '&:nth-of-type(1)': {
     borderTop: 'none',
   },
 });
-
-export const Label = MUIStyled('div')({
-  fontSize: '16px',
-  fontWeight: 'bold',
-  display: 'flex',
-  alignItems: 'center',
-  padding: '0 0 20px 0',
-  margin: 0,
-});
-
-export const SelectStyles = {
-  fontSize: 18,
-  height: '60px',
-  color: 'black',
-  '.MuiOutlinedInput-notchedOutline': {
-    borderColor: '#000',
-  },
-  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-    borderColor: '#000',
-  },
-  '&:hover .MuiOutlinedInput-notchedOutline': {
-    borderColor: '#000',
-  },
-  '.MuiSvgIcon-root ': {
-    fill: 'black !important',
-  },
-};

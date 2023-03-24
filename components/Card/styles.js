@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { styled as MUIStyled } from '@mui/system';
 
 export const Container = styled.div`
   display: flex;
@@ -31,3 +32,29 @@ export const EditedIndicator = styled.div`
   position: relative;
   bottom: 8px;
 `;
+
+export const Label = MUIStyled('div')({
+  fontSize: '16px',
+  fontWeight: 'bold',
+  display: 'flex',
+  padding: '0 20px 20px 0',
+  margin: 0,
+});
+
+export const SelectStyles = {
+  fontSize: 18,
+  height: '60px',
+  color: 'black',
+  '.MuiOutlinedInput-notchedOutline': {
+    borderColor: '#000',
+  },
+  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    borderColor: '#000',
+  },
+  '&:hover .MuiOutlinedInput-notchedOutline': {
+    borderColor: '#000',
+  },
+  '.MuiSvgIcon-root ': {
+    fill: 'black !important',
+  },
+};
