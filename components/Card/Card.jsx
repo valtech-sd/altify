@@ -152,23 +152,29 @@ const Card = ({
                             justifyContent: 'space-between',
                           }}
                         >
-                          <Label>GPT Creativity Level</Label>
-                          <FormControl sx={{ width: 120 }}>
-                            <Select
-                              labelId="creativity-select-label"
-                              id="creativity-select"
-                              value={creativity}
-                              onChange={handleChange}
-                              sx={SelectStyles}
-                            >
-                              {options.map((option) => (
-                                <MenuItem key={option.label} value={option.value}>
-                                  {option.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                            }}
+                          >
+                            <Label>GPT Creativity Level</Label>
+                            <FormControl sx={{ width: 120 }}>
+                              <Select
+                                labelId="creativity-select-label"
+                                id="creativity-select"
+                                value={creativity}
+                                onChange={handleChange}
+                                sx={SelectStyles}
+                              >
+                                {options.map((option) => (
+                                  <MenuItem key={option.label} value={option.value}>
+                                    {option.label}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </div>
                           <Button
                             disabled={unsupported}
                             onClick={(e) => {
